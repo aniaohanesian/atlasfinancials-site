@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinite Insights</title>
+<link rel="icon" type="image/x-icon" href="convert.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0B1F3A;
+  --navy-mid: #122848;
+  --blue: #1A4A7A;
+  --blue-bright: #2563A8;
+  --accent: #4A9EDB;
+  --accent-light: #7BBFE8;
+  --cream: #F7F4EF;
+  --warm-white: #FDFCFA;
+  --text-dark: #0B1F3A;
+  --text-mid: #2D4A6B;
+  --text-muted: #6B87A4;
+  --border: rgba(26,74,122,0.12);
+  --border-light: rgba(26,74,122,0.07);
+  --gold: #B8955A;
+  --gold-light: #D4AE7A;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--warm-white); color: var(--text-dark); overflow-x: hidden; line-height: 1.6; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 0 6%; height: 72px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(253,252,250,0.92); backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border-light);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 2px 32px rgba(11,31,58,0.09); }
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: var(--navy); text-decoration: none; letter-spacing: 0.01em; display: flex; align-items: center; gap: 0.15em; }
+.nav-logo .exp { font-size: 0.8em; vertical-align: super; color: var(--blue); font-weight: 600; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+.nav-links a { font-size: 0.85rem; font-weight: 400; color: var(--text-mid); text-decoration: none; letter-spacing: 0.03em; transition: color 0.2s; }
+.nav-links a:hover { color: var(--navy); }
+.nav-cta { background: var(--navy) !important; color: white !important; padding: 0.55rem 1.4rem !important; border-radius: 3px; font-weight: 500 !important; transition: background 0.2s, transform 0.2s !important; }
+.nav-cta:hover { background: var(--blue) !important; transform: translateY(-1px); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden;
+  background: var(--navy); padding: 110px 6%;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 65% 75% at 72% 48%, rgba(37,99,168,0.38) 0%, transparent 65%),
+              radial-gradient(ellipse 40% 55% at 18% 78%, rgba(74,158,219,0.1) 0%, transparent 60%),
+              linear-gradient(158deg, #0B1F3A 0%, #0D2545 55%, #081829 100%);
+}
+.hero-grid { display: none; }
+.hero-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; max-width: 1200px; width: 100%; margin: 0 auto; }
+.hero-content { max-width: 780px; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 0.7rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 1.6rem; opacity: 0; animation: fadeUp 0.8s 0.2s ease forwards; }
+.hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent); }
+.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 5.5vw, 4.8rem); font-weight: 300; line-height: 1.18; color: #fff; margin-bottom: 0.5rem; letter-spacing: -0.01em; opacity: 0; animation: fadeUp 0.8s 0.35s ease forwards; } .hero-title .line1 { white-space: nowrap; display: block; } .hero-title .line2 { display: block; }
+.hero-title em { font-style: italic; color: var(--accent-light); }
+.hero-title .arrow { color: var(--gold-light); font-style: normal; margin: 0 0.1em; }
+.hero-tagline { font-size: clamp(1.05rem, 1.5vw, 1.2rem); color: rgba(255,255,255,0.55); margin: 1.2rem 0 0.6rem; font-weight: 300; font-style: italic; font-family: 'Cormorant Garamond', serif; opacity: 0; animation: fadeUp 0.8s 0.45s ease forwards; }
+.hero-sub { font-size: 0.95rem; color: rgba(255,255,255,0.58); line-height: 1.7; max-width: 480px; margin-bottom: 2.5rem; font-weight: 300; opacity: 0; animation: fadeUp 0.8s 0.55s ease forwards; }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.65s ease forwards; }
+.btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; background: var(--accent); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500; border-radius: 3px; text-decoration: none; letter-spacing: 0.03em; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 24px rgba(74,158,219,0.32); }
+.btn-primary:hover { background: #5BACE6; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(74,158,219,0.42); }
+.btn-ghost { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2rem; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.7); font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 400; border-radius: 3px; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: #fff; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 1.8rem; opacity: 0; animation: fadeIn 1s 0.8s ease forwards; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; width: 100%; max-width: 360px; }
+.stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 1.3rem 1.5rem; backdrop-filter: blur(10px); text-align: center; transition: background 0.3s, border-color 0.3s, transform 0.3s; }
+.stat-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(74,158,219,0.25); transform: translateY(-2px); }
+.stat-number { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 600; color: var(--accent-light); line-height: 1; margin-bottom: 0.3rem; }
+.stat-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+
+/* ── SHARED SECTION STYLES ── */
+.section { padding: 70px 6%; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-label { display: inline-flex; align-items: center; gap: 0.7rem; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+.section-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--accent); }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 300; line-height: 1.1; color: var(--navy); margin-bottom: 1.2rem; }
+.section-title em { font-style: italic; color: var(--blue); }
+.section-lead { font-size: 1.05rem; color: var(--text-mid); line-height: 1.75; max-width: 580px; font-weight: 300; }
+.divider { width: 48px; height: 2px; background: linear-gradient(90deg, var(--accent), transparent); margin: 0.4rem 0 0.8rem; }
+
+/* ── VALUE STRIP ── */
+#value-strip { background: var(--navy); padding: 32px 6%; }
+.value-strip-inner { max-width: 1100px; margin: 0 auto; display: flex; gap: 2rem; align-items: center; justify-content: center; flex-wrap: wrap; }
+.value-pill { display: flex; align-items: center; gap: 0.6rem; color: rgba(255,255,255,0.65); font-size: 0.82rem; font-weight: 400; letter-spacing: 0.02em; }
+.value-pill::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+/* ── PROBLEM/HOOK ── */
+#hook { background: var(--warm-white); padding: 70px 6%; }
+.hook-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.hook-quote { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.3rem, 2.2vw, 1.9rem); font-weight: 300; line-height: 1.35; color: var(--navy); font-style: italic; border-left: 2px solid var(--accent); padding-left: 1.8rem; }
+.hook-body p { font-size: 0.97rem; color: var(--text-mid); line-height: 1.8; margin-bottom: 1.2rem; font-weight: 300; }
+.hook-body p strong { color: var(--navy); font-weight: 500; }
+.vibe-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.8rem; }
+.vibe-tag { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; padding: 0.35rem 0.9rem; border: 1px solid var(--border); border-radius: 2px; color: var(--text-mid); background: white; }
+
+/* ── SERVICES ── */
+#services { background: var(--warm-white); }
+.services-header { text-align: center; margin-bottom: 4rem; }
+.services-header .section-label { justify-content: center; }
+.services-header .section-label::before { display: none; }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.service-card { padding: 2.8rem; border-right: 1px solid var(--border); position: relative; transition: background 0.3s; background: white; display: flex; flex-direction: column; min-height: 340px; }
+.service-card:last-child { border-right: none; }
+.service-card:hover { background: #f8fbff; }
+.service-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: rgba(74,158,219,0.15); line-height: 1; margin-bottom: 1rem; }
+.service-tag { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.8rem; display: block; }
+.service-name { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; color: var(--navy); margin-bottom: 0.8rem; line-height: 1.2; }
+.service-desc { font-size: 0.88rem; color: var(--text-mid); line-height: 1.75; font-weight: 300; }
+.service-detail { margin-top: auto; padding-top: 1.4rem; border-top: 1px solid var(--border-light); }
+.service-detail p { font-size: 0.82rem; color: var(--text-muted); line-height: 1.7; font-style: italic; }
+.services-flow { margin-top: 3rem; display: flex; align-items: center; gap: 0; background: var(--navy); border-radius: 6px; overflow: hidden; }
+.flow-step { flex: 1; padding: 1.4rem 1.8rem; color: rgba(255,255,255,0.8); font-size: 0.83rem; line-height: 1.5; position: relative; text-align: center; }
+.flow-step strong { display: block; font-weight: 500; color: white; margin-bottom: 0.2rem; font-size: 0.85rem; }
+.flow-step::after { content: '→'; position: absolute; right: -0.3rem; top: 50%; transform: translateY(-50%); color: var(--accent); font-size: 1rem; z-index: 2; }
+.flow-step:last-child::after { display: none; }
+
+/* ── THE DIFFERENCE ── */
+#difference { background: var(--navy); padding: 100px 6%; }
+.difference-inner { max-width: 1100px; margin: 0 auto; }
+.difference-header .section-label { color: var(--accent-light); }
+.difference-header .section-label::before { background: var(--accent-light); }
+.difference-header .section-title { color: white; }
+.difference-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+.diff-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 2.4rem; transition: background 0.3s, border-color 0.3s; }
+.diff-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(74,158,219,0.22); }
+.diff-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--accent-light); margin-bottom: 1rem; line-height: 1.3; }
+.diff-card p { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.78; font-weight: 300; }
+.diff-highlight { color: rgba(255,255,255,0.85) !important; font-weight: 400 !important; }
+
+/* ── ABOUT ── */
+#about { background: var(--cream); }
+.about-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 0.85fr 1.6fr; gap: 2.5rem; align-items: start; }
+.about-photo-col { position: relative; }
+.about-photo-wrap { position: relative; border-radius: 6px; overflow: hidden; }
+.about-photo-wrap img { width: 100%; display: block; filter: contrast(1.02) saturate(0.95); }
+.about-photo-frame { position: absolute; inset: -6px; border: 1px solid var(--border); border-radius: 8px; pointer-events: none; }
+.about-photo-accent { position: absolute; bottom: -16px; right: -16px; width: 80px; height: 80px; border: 2px solid var(--accent); border-radius: 50%; opacity: 0.3; pointer-events: none; }
+.about-badge { position: absolute; top: 1.2rem; left: -1rem; background: var(--navy); color: white; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.08em; padding: 0.5rem 1rem; border-radius: 3px; box-shadow: 0 4px 16px rgba(11,31,58,0.25); }
+.about-text-col { padding-top: 0.5rem; }
+.about-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.1rem; }
+.about-title-line { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--navy); margin-bottom: 0.4rem; line-height: 1.2; }
+.about-bio p { font-size: 0.93rem; color: var(--text-mid); line-height: 1.82; margin-bottom: 1.1rem; font-weight: 300; }
+.about-bio p strong { color: var(--navy); font-weight: 500; }
+.about-bio p em { color: var(--blue); font-style: italic; font-family: 'Cormorant Garamond', serif; font-size: 1.05em; }
+.credentials { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.8rem; }
+.cred-tag { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.07em; padding: 0.35rem 0.85rem; border: 1px solid var(--border); border-radius: 2px; color: var(--text-mid); background: white; text-transform: uppercase; }
+
+/* ── WHO WE WORK WITH ── */
+#who { background: var(--warm-white); }
+.who-inner { max-width: 1100px; margin: 0 auto; }
+.who-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 4.5rem; align-items: center; }
+.who-lead { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.4rem, 2.5vw, 1.9rem); font-weight: 300; color: var(--navy); line-height: 1.45; font-style: italic; }
+.who-desc { font-size: 0.93rem; color: var(--text-mid); line-height: 1.8; font-weight: 300; }
+.industries-section { margin-bottom: 3.5rem; }
+.industries-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.2rem; }
+.industries-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.industry-tag { font-size: 0.8rem; font-weight: 400; padding: 0.45rem 1rem; border: 1px solid var(--border); border-radius: 2px; color: var(--text-mid); background: white; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+.industry-tag:hover { border-color: var(--accent); color: var(--blue); background: #f0f8ff; }
+.experience-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+.exp-item { background: white; padding: 1.8rem 2rem; transition: background 0.2s; }
+.exp-item:hover { background: #f5f9ff; }
+.exp-item h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; color: var(--navy); margin-bottom: 0.5rem; }
+.exp-item p { font-size: 0.83rem; color: var(--text-muted); line-height: 1.65; font-weight: 300; }
+
+/* ── CONTACT ── */
+#contact { background: var(--navy); padding: 70px 6% 70px; }
+.contact-inner { max-width: 1000px; margin: 0 auto; }
+.contact-top { text-align: center; margin-bottom: 2.5rem; }
+.contact-top .section-label { justify-content: center; color: var(--accent-light); }
+.contact-top .section-label::before { display: none; }
+.contact-top .section-title { color: white; max-width: 600px; margin: 0 auto 1rem; }
+.contact-top p { font-size: 0.95rem; color: rgba(255,255,255,0.55); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.75; font-weight: 300; }
+.call-bullets { display: flex; flex-direction: column; gap: 0.6rem; text-align: left; max-width: 440px; margin: 0 auto 2.5rem; }
+.call-bullet { display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.6; }
+.call-bullet::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 0.55rem; }
+.contact-cta-wrap { display: flex; justify-content: center; margin-bottom: 1rem; }
+.btn-calendly { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 2.4rem; background: var(--accent); color: white; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; font-weight: 500; border-radius: 3px; text-decoration: none; letter-spacing: 0.03em; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 28px rgba(74,158,219,0.35); }
+.btn-calendly:hover { background: #5BACE6; transform: translateY(-2px); box-shadow: 0 10px 36px rgba(74,158,219,0.45); }
+.btn-calendly svg { width: 16px; height: 16px; flex-shrink: 0; }
+.contact-note { text-align: center; font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-bottom: 0; }
+.contact-divider { border: none; border-top: 1px solid rgba(255,255,255,0.07); margin: 0 0 4rem; }
+.contact-form-section h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; color: white; text-align: center; margin-bottom: 2.5rem; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-field { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-field.full { grid-column: 1 / -1; }
+.form-field label { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+.form-field input, .form-field textarea {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
+  padding: 0.85rem 1rem; color: white; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+  outline: none; transition: border-color 0.2s, background 0.2s; width: 100%;
+}
+.form-field input::placeholder, .form-field textarea::placeholder { color: rgba(255,255,255,0.2); }
+.form-field input:focus, .form-field textarea:focus { border-color: rgba(74,158,219,0.5); background: rgba(255,255,255,0.07); }
+.form-field textarea { min-height: 110px; resize: vertical; }
+.form-submit { text-align: center; margin-top: 1.5rem; }
+.btn-submit { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.9rem 2.4rem; background: transparent; border: 1px solid rgba(255,255,255,0.25); color: white; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 400; border-radius: 3px; cursor: pointer; letter-spacing: 0.05em; transition: border-color 0.2s, background 0.2s; }
+.btn-submit:hover { border-color: var(--accent); background: rgba(74,158,219,0.1); }
+.form-success { display: none; text-align: center; padding: 1.5rem; background: rgba(74,158,219,0.1); border: 1px solid rgba(74,158,219,0.25); border-radius: 6px; color: var(--accent-light); font-size: 0.9rem; }
+
+/* ── FOOTER ── */
+footer { background: #060F1D; padding: 1.2rem 6%; }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: rgba(255,255,255,0.4); letter-spacing: 0.01em; }
+.footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.25); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-right { align-items: flex-start; }
+  .stat-grid { max-width: 100%; }
+  .hook-inner, .about-inner, .who-intro, .difference-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  #lenses .reveal > div { grid-template-columns: 1fr !important; }
+  .services-grid { grid-template-columns: 1fr; }
+  .service-card { border-right: none; border-bottom: 1px solid var(--border); }
+  .service-card:last-child { border-bottom: none; }
+  .services-flow { flex-direction: column; } .flow-step { text-align: left; }
+  .flow-step::after { content: '↓'; right: auto; left: 50%; top: auto; bottom: -1rem; transform: translateX(-50%); }
+  .experience-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; gap: 1rem; text-align: center; }
+  .nav-links { display: none; }
+}
+
+/* ── STAT BAND ── */
+#stat-band { background: #081829; border-top: 1px solid rgba(255,255,255,0.06); }
+.stat-band-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: stretch; }
+.sb-item { flex: 1; padding: 2.4rem 1.6rem; text-align: center; }
+.sb-sep { width: 1px; background: rgba(255,255,255,0.09); flex-shrink: 0; margin: 1rem 0; }
+.sb-nums { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; font-weight: 500; line-height: 1; margin-bottom: 0.5rem; display: flex; align-items: baseline; justify-content: center; gap: 0; }
+.sb-white { color: #ffffff; }
+.sb-blue { color: var(--accent); }
+.sb-l { font-size: 0.63rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+@media (max-width: 900px) { .stat-band-inner { flex-wrap: wrap; } .sb-item { flex: 0 0 50%; border-bottom: 1px solid rgba(255,255,255,0.07); } .sb-sep { display: none; } }
+
+/* ── INDUSTRIES 2-COL GRID ── */
+.industries-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+.industry-tag { display: flex; align-items: center; gap: 0.6rem; font-size: 0.84rem; font-weight: 400; padding: 0.7rem 1.1rem; border: 1px solid var(--border); border-radius: 3px; color: var(--text-mid); background: white; transition: border-color 0.2s, color 0.2s, background 0.2s; }
+.industry-tag::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; opacity: 0.5; }
+.industry-tag:hover { border-color: var(--accent); color: var(--blue); background: #f0f8ff; }
+
+
+@media (max-width: 768px) {
+  /* 1. Stat band: single centered column, no uneven wrap */
+  #stat-band .stat-band-inner { flex-direction: column; }
+  #stat-band .sb-item { flex: none; width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1.4rem 6%; }
+  #stat-band .sb-item:last-child { border-bottom: none; }
+  #stat-band .sb-sep { display: none; }
+
+  /* 2. Three lenses: single column so all 3 cards show */
+  #lenses .lenses-grid { display: flex !important; flex-direction: column !important; }
+  #lenses .lens-col { border-right: none !important; border-bottom: 1px solid var(--border); }
+  #lenses .lens-col:last-child { border-bottom: none; }
+
+  /* 3. Flow bar: vertical, arrows centered with proper spacing */
+  .services-flow { flex-direction: column; }
+  .flow-step { width: 100%; text-align: center !important; border-right: none; padding: 1.2rem 1.8rem 0; }
+  .flow-step::after { content: "↓"; position: static; display: block; text-align: center; margin: 1rem auto 0; transform: none; font-size: 1.1rem; line-height: 1; }
+  .flow-step:last-child { padding-bottom: 1.2rem; }
+  .flow-step:last-child::after { display: none; }
+
+  /* 4. Contact title: keep same size, just replace "and" with & in HTML */
+
+
+  /* Credentials: stretch to fill full width, keep original font size */
+  .credentials { gap: 0.4rem; flex-wrap: nowrap; }
+  .cred-tag { flex: 1; text-align: center; padding: 0.35rem 0.3rem; }
+
+  /* 5. Experience tags: increase padding so cells are wider, reduce letter-spacing to gain width */
+  #who .industry-tag { padding: 0.75rem 0.6rem; letter-spacing: 0.01em; font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Infinite Insights</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">Fractional CFO &amp; Strategic Financial Partner</div>
+      <h1 class="hero-title"><span class="line1">Infinite Insights <span class="arrow">→</span></span><span class="line2"><em>Exponential Impact</em></span></h1>
+      <p class="hero-sub">If finance is the missing piece, we're the perfect fit. The gap between where your business is and where it could be lives in the numbers.</p>
+      <div class="hero-ctas">
+        <a href="https://calendly.com/infiniteinsightscfo/30min" target="_blank" class="btn-primary">Book a Free 30-Min Call</a>
+        <a href="#services" class="btn-ghost">Our Services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STAT BAND ── -->
+<div id="stat-band">
+  <div class="stat-band-inner">
+    <div class="sb-item">
+      <div class="sb-nums"><span class="sb-white">Big&nbsp;</span><span class="sb-blue">4</span></div>
+      <div class="sb-l">Deloitte Audit Alum</div>
+    </div>
+    <div class="sb-sep"></div>
+    <div class="sb-item">
+      <div class="sb-nums"><span class="sb-white">$10</span><span class="sb-blue">B+</span></div>
+      <div class="sb-l">Client Revenue &amp; Assets</div>
+    </div>
+    <div class="sb-sep"></div>
+    <div class="sb-item">
+      <div class="sb-nums"><span class="sb-white">10</span><span class="sb-blue">+</span></div>
+      <div class="sb-l">Industries Served</div>
+    </div>
+    <div class="sb-sep"></div>
+    <div class="sb-item">
+      <div class="sb-nums"><span class="sb-white">5</span><span class="sb-blue">+</span></div>
+      <div class="sb-l">Years in Finance</div>
+    </div>
+    <div class="sb-sep"></div>
+    <div class="sb-item">
+      <div class="sb-nums"><span class="sb-white">UC</span><span class="sb-blue">LA</span></div>
+      <div class="sb-l">Anderson MBA Candidate</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOOK ── -->
+<section id="hook">
+  <div class="hook-inner">
+    <div class="hook-quote">
+      Decision making without financial clarity is like steering the ship blind.
+    </div>
+    <div class="hook-body">
+      <p>We give you the visibility to see exactly where you're going and navigate with confidence. Together we build the clarity, foundation, and confidence your business needs to grow.</p>
+      
+    </div>
+  </div>
+</section>
+
+
+<!-- ── THREE LENSES ── -->
+<section id="lenses" style="background: var(--cream); padding: 70px 6%;">
+  <div class="section-inner" style="max-width: 1100px; margin: 0 auto;">
+    <div class="reveal" style="max-width: 680px; margin: 0 auto 3rem; text-align: center;">
+      <h2 class="section-title" style="margin-bottom: 1rem;">Three Distinct Lenses</h2>
+      <p style="font-family: 'Cormorant Garamond', serif; font-size: clamp(1.15rem, 2vw, 1.5rem); font-weight: 300; color: var(--text-mid); line-height: 1.4; font-style: italic;">Most Consultants Bring One Lens to the Table. We Bring Three.</p>
+    </div>
+    <div class="reveal lenses-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 2rem;">
+      <div style="background: white; padding: 2.4rem; border-right: 1px solid var(--border); text-align: center; transition: background 0.3s;" onmouseenter="this.style.background='#f8fbff'" onmouseleave="this.style.background='white'" class="lens-col">
+        <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.2;">Auditor's Eye</div>
+        <div style="width: 32px; height: 2px; background: var(--accent); margin: 0 auto 0.8rem;"></div>
+        <div style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);">Deloitte Senior Auditor</div>
+      </div>
+      <div style="background: white; padding: 2.4rem; border-right: 1px solid var(--border); text-align: center; transition: background 0.3s;" onmouseenter="this.style.background='#f8fbff'" onmouseleave="this.style.background='white'" class="lens-col">
+        <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.2;">Industry Know-How</div>
+        <div style="width: 32px; height: 2px; background: var(--accent); margin: 0 auto 0.8rem;"></div>
+        <div style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);">Senior Financial Analyst</div>
+      </div>
+      <div style="background: white; padding: 2.4rem; text-align: center; transition: background 0.3s;" onmouseenter="this.style.background='#f8fbff'" onmouseleave="this.style.background='white'" class="lens-col">
+        <div style="font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.2;">Founder's Reality</div>
+        <div style="width: 32px; height: 2px; background: var(--accent); margin: 0 auto 0.8rem;"></div>
+        <div style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted);">Startup Co-Founder</div>
+      </div>
+    </div>
+    <div class="reveal" style="text-align: center; max-width: 780px; margin: 0 auto;">
+      <p style="font-size: 0.97rem; color: var(--text-mid); line-height: 1.75; font-weight: 300;">This rare combination means we understand not only the numbers, but the full context behind them — giving us the depth to support your business in a unique way.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── SERVICES ── -->
+<section id="services" class="section">
+  <div class="section-inner">
+    <div class="services-header reveal">
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">Three Ways We Move<br><em>Your Business Forward</em></h2>
+    </div>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <span class="service-tag">The Past</span>
+        <h3 class="service-name">Identify</h3>
+        <p class="service-desc">Historical accounting support. We dig into your financials to understand what's been happening, painting a clear picture of where your business has been and where it stands today.</p>
+        <div class="service-detail"><p>You can't know where you're going without understanding where you've been.</p></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <span class="service-tag">The Present</span>
+        <h3 class="service-name">Implement</h3>
+        <p class="service-desc">Financial foundation setup. We build the systems and controls your business needs to get to the next level.</p>
+        <div class="service-detail"><p>Creates the clarity and stability you need before anything else can grow.</p></div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <span class="service-tag">The Future</span>
+        <h3 class="service-name">Inform</h3>
+        <p class="service-desc">Forward-looking finance. We develop the forecasts, budgets, variance analysis, and financial models (scenario analysis, sensitivity testing, ROI frameworks) that drive better decisions.</p>
+        <div class="service-detail"><p>We help you build the financial planning infrastructure that scales with you.</p></div>
+      </div>
+    </div>
+    <div class="services-flow reveal">
+      <div class="flow-step"><strong>Identify</strong> Understand your financial history clearly</div>
+      <div class="flow-step"><strong>Implement</strong> Build the foundation your business runs on</div>
+      <div class="flow-step"><strong>Inform</strong> Forecast, model, and decide with confidence</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── ABOUT ── -->
+<section id="about" class="section">
+  <div class="about-inner section-inner">
+    <div class="about-photo-col reveal">
+      <div class="about-photo-wrap">
+        <img src="headshot.JPG" alt="Headshot">
+        <div class="about-photo-frame"></div>
+        <div class="about-photo-accent"></div>
+      </div>
+      <div class="credentials" style="margin-top: 1.2rem; justify-content: center;">
+        <span class="cred-tag">Deloitte</span>
+        <span class="cred-tag">UCLA MBA</span>
+        <span class="cred-tag">Founder</span>
+        <span class="cred-tag">FP&amp;A</span>
+      </div>
+    </div>
+    <div class="about-text-col reveal">
+      <div class="section-label">About</div>
+      <p class="about-name">Ania Ohanesian</p>
+      <h2 class="about-title-line">Former Deloitte Auditor<br>Turned Fractional CFO</h2>
+      <div class="divider"></div>
+      <div class="about-bio">
+        <p>I founded <strong>Infinite Insights</strong> when I realized that I am deeply passionate and naturally skilled in finance &amp; accounting, which happens to be many business owners' worst nightmare. While some people hate the idea of spending their days staring at spreadsheet after spreadsheet, I consider Excel my best friend — and I built a business around it.</p>
+        <p>I've always been passionate about helping others understand complex topics and breaking them down into simple, digestible components. When I realized that finances are one of the key areas keeping businesses from reaching their full potential, my goal became clear: <strong>partner with companies to clear the financial roadblocks and help them get to the next level.</strong></p>
+        <p>I received a B.A. in <strong>Economics and Accounting</strong> and a certification in <strong>Technology Management</strong> from UC Santa Barbara. When I graduated in 2022, I was one of six individuals — and the only woman — to graduate with distinction in the major, placing in the top 1% of my class. During my time at university, I co-founded a startup and was among the top 3 ventures to win the <strong>USD V2 Pitch Competition</strong>.</p>
+        <p>After I graduated, I spent three years in <strong>Big 4 accounting</strong> as a lead senior across private and public engagements. While at <strong>Deloitte</strong>, I had the opportunity to work with complex clients from diverse industries and sizes, that, although challenging, were instrumental in catapulting my professional growth and the technical depth and financial rigor I carry into every engagement today.</p>
+        <p>I then moved to the industry side as a <strong>Senior Financial Analyst</strong> for a diversified manufacturing company, sharpening my financial planning, analysis, and operational skills from the inside. I'm currently completing my <strong>MBA at UCLA Anderson</strong>, which has expanded both my network and my practice. Today I consult with growth-stage companies as a strategic financial partner — identifying opportunities for growth and leading the execution.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="who" style="background: var(--warm-white); padding: 70px 6% 70px;">
+  <div class="who-inner section-inner">
+    <div class="industries-section reveal">
+      <p class="industries-label">Industry Experience</p>
+      <div class="industries-grid" style="grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(5, auto);">
+        <span class="industry-tag">Healthcare &amp; Life Sciences</span>
+        <span class="industry-tag">Technology &amp; SaaS</span>
+        <span class="industry-tag">Consumer Goods</span>
+        <span class="industry-tag">Retail &amp; E-Commerce</span>
+        <span class="industry-tag">Logistics &amp; Supply Chain</span>
+        <span class="industry-tag">Diversified Manufacturing</span>
+        <span class="industry-tag">Real Estate</span>
+        <span class="industry-tag">Building Materials</span>
+        <span class="industry-tag">Hospitality</span>
+        <span class="industry-tag">Aerospace &amp; Defense</span>
+      </div>
+    </div>
+    <div class="industries-section reveal" style="margin-top: 3rem;">
+      <p class="industries-label">Client Experience</p>
+      <div class="industries-grid" style="grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(3, auto);">
+        <span class="industry-tag">Pre-IPO</span>
+        <span class="industry-tag">Multi-Entity</span>
+        <span class="industry-tag">Global Subsidiaries</span>
+        <span class="industry-tag">Emerging Growth Companies</span>
+        <span class="industry-tag">First-Year Compliance Cycles</span>
+        <span class="industry-tag">Multi-Year Restatements</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-top reveal">
+      <div class="section-label">Let's Talk</div>
+      <h2 class="section-title">Ready to Close the Gap &amp; <em style="color:var(--accent-light);">Unlock the Next Level?</em></h2>
+      <p>Book a free 30-minute call to talk about where you are, what you're navigating, and how we can help.</p>
+
+      <div class="contact-cta-wrap">
+        <a href="https://calendly.com/infiniteinsightscfo/30min" target="_blank" class="btn-calendly">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Book Your Free Call
+        </a>
+      </div>
+      <p class="contact-note">or email us at <a href="mailto:ania@infiniteinsightscfo.com" style="color: rgba(255,255,255,0.45); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.2);">ania@infiniteinsightscfo.com</a></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-logo">Infinite Insights</span>
+    <span class="footer-copy">© 2025 All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.08 });
+reveals.forEach(el => observer.observe(el));
+
+// Nav scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+});
+
+// Smooth anchor scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+</body>
+</html>
