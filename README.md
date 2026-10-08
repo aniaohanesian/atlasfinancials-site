@@ -8,13 +8,8 @@ site updates within a minute or two.
 
 | File | What it is |
 |---|---|
-| `index.html` | The whole page. Copied from the Infinite Insights site as a starting point. |
+| `index.html` | The whole page. |
+| `assets/` | The Atlas logo, navy and white. |
 | `CNAME` | Tells GitHub Pages the domain is `atlasfinancials.io`. Do not delete it. |
 | `convert.ico` | The little icon in the browser tab. |
-| `headshot.JPG` | Photo used in the About section. |
-
-## Still to do
-
-- Replace the Infinite Insights wording with Atlas wording.
-- Point the Calendly and email links at wherever Atlas enquiries should go.
-- Swap the favicon and the photo if Atlas should not use the Infinite Insights ones.
+| `headshot.JPG` | Photo, not used on the current page. |
