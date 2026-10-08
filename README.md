@@ -10,6 +10,7 @@ site updates within a minute or two.
 |---|---|
 | `index.html` | The whole page. |
 | `assets/` | The Atlas logo, navy and white. |
+| `privacy.html`, `terms.html`, `legal.css` | The Privacy Policy and Terms of Use pages, and their shared style. |
 | `CNAME` | Tells GitHub Pages the domain is `atlasfinancials.io`. Do not delete it. |
 | `convert.ico` | The little icon in the browser tab. |
 | `headshot.JPG` | Photo, not used on the current page. |
