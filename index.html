@@ -120,6 +120,8 @@ nav.scrolled { box-shadow: 0 2px 32px rgba(11,31,58,0.09); }
 .wl-form input { flex: 1; min-width: 0; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); border-radius: 3px; padding: 0.95rem 1.1rem; color: #fff; font-family: var(--sans); font-size: 0.92rem; outline: none; }
 .wl-form input::placeholder { color: rgba(255,255,255,0.3); }
 .wl-form input:focus { border-color: rgba(74,158,219,0.6); }
+.wl-again { display: flex; align-items: center; justify-content: center; gap: 0.45rem; margin: 1rem auto 0; background: transparent; border: 1px solid rgba(123,191,232,0.45); border-radius: 3px; padding: 0.6rem 1.2rem; color: #fff; font-family: var(--sans); font-size: 0.85rem; cursor: pointer; transition: background 0.2s; }
+.wl-again:hover { background: rgba(74,158,219,0.18); }
 .wl-success { display: none; max-width: 480px; margin: 0 auto; padding: 1.3rem; background: rgba(74,158,219,0.1); border: 1px solid rgba(74,158,219,0.25); border-radius: 4px; color: var(--accent-light); }
 .wl-consent { font-size: 0.72rem; color: rgba(255,255,255,0.32); max-width: 480px; margin: 1rem auto 0; line-height: 1.6; }
 .wl-call { margin-top: 2.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.5); }
@@ -278,9 +280,9 @@ footer { background: #060F1D; padding: 1.2rem 2rem; display: flex; justify-conte
     <p class="lead">Join the waitlist for updates on our launch, first access to Atlas, and an exclusive founder discount.</p>
     <form class="wl-form" id="wlForm">
       <input type="email" id="wlEmail" placeholder="you@company.com" required aria-label="Your email">
-      <button type="submit" class="btn">Get the Map</button>
+      <button type="submit" class="btn">Join the Waitlist</button>
     </form>
-    <div class="wl-success" id="wlSuccess">You're on the list. We'll be in touch before launch.</div>
+    <div class="wl-success" id="wlSuccess">You're on the list. We'll be in touch before launch.<button type="button" class="wl-again" id="wlAgain"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg> Add another person</button></div>
     <p class="wl-consent">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="privacy.html">Privacy Policy</a>.</p>
     <p class="wl-call">Need help today? <a href="https://calendly.com/infiniteinsightscfo/30min" target="_blank" rel="noopener">Book a free call</a></p>
   </div>
@@ -306,6 +308,12 @@ document.getElementById('wlForm').addEventListener('submit', e => {
   if (!ENDPOINT) { done(); return; }
   fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'Agreed to receive launch updates from Atlas.' }) }).then(done).catch(done);
+});
+// Reset for the next person (the page is also used as a sign-up form from a phone home screen).
+document.getElementById('wlAgain').addEventListener('click', () => {
+  const form = document.getElementById('wlForm');
+  form.reset(); form.style.display = ''; document.getElementById('wlSuccess').style.display = 'none';
+  document.getElementById('wlEmail').focus();
 });
 </script>
 </body></html>
