@@ -72,6 +72,8 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
 }
 /* waitlist pop-up: the earlier light version (cream panel, navy and blue text), her pick 14 Oct */
 .sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.6);padding:16px}
+/* phones: the pop-up is a card that rises from the bottom and sits flat on top of the keyboard (as in the artifact version) */
+@media (max-width:600px){.sheet{align-items:flex-end;padding:0}.sheet .panel{border-radius:18px 18px 0 0;padding-bottom:calc(26px + env(safe-area-inset-bottom,0px))}}
 [hidden]{display:none!important}
 .panel{width:100%;max-width:520px;background:#F7F4EF;color:#0B1F3A;border-radius:16px;padding:26px 22px;font-family:"DM Sans",system-ui,sans-serif}
 .panel h2{font:700 min(30px,6.6vw)/1.1 var(--display);letter-spacing:.01em;text-transform:uppercase;white-space:nowrap;margin:0 0 8px;color:#0B1F3A}
@@ -129,6 +131,13 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzWii84o6K5VI2Oe6Rv8wcwD-afCyV4fuwhvfgK6fj6oSZfe4l6pgTxsUWEF6-Kd2Zp-w/exec';
 const $ = id => document.getElementById(id);
 const openSheet = () => { $('sheet').hidden = false; $('wlEmail').focus(); };
+// keep the pop-up's bottom edge on the keyboard: size the overlay to the part of the screen the keyboard leaves visible
+(function(){
+  var vv=window.visualViewport, sh=$('sheet'); if(!vv) return;
+  function fit(){ if(sh.hidden) return; sh.style.top=vv.offsetTop+'px'; sh.style.height=vv.height+'px'; sh.style.bottom='auto'; }
+  vv.addEventListener('resize',fit); vv.addEventListener('scroll',fit);
+  new MutationObserver(fit).observe(sh,{attributes:true,attributeFilter:['hidden']});
+})();
 document.querySelectorAll('.open').forEach(b => b.addEventListener('click', openSheet));
 $('wlClose').addEventListener('click', () => { $('sheet').hidden = true; });
 $('sheet').addEventListener('click', e => { if (e.target.id === 'sheet') $('sheet').hidden = true; });
