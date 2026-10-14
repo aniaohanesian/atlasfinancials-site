@@ -39,9 +39,12 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
 .meta{font:italic 500 15px var(--serif);color:var(--cream);opacity:.85;margin-top:10px}
 /* upright phone: one tight group of words (like the sideways view), centred in the sky above the globe; button close to the bottom */
 @media (max-aspect-ratio:1/1){
-  .poster{--ah:clamp(360px,66svh,720px)}
-  .words{align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
-  .art{height:var(--ah);margin-top:calc(var(--ah) * -0.15)}
+  /* like the computer: the page is a little taller than the screen, the words and button stay frozen and the painting
+     slides up under them as you scroll */
+  .poster{--ah:clamp(360px,66svh,720px);--extra:14svh;display:block;min-height:0;height:calc(100svh + var(--extra))}
+  .copy{display:block;position:fixed;left:0;right:0;top:0;height:100svh;z-index:3}
+  .words{position:absolute;left:0;right:0;top:0;height:calc(100svh - var(--ah) * 0.85);align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
+  .art{height:var(--ah);margin-top:calc(100svh - var(--ah))}
   .welcome{font-size:min(3.55vw,16px);white-space:nowrap}
   .pre{font-size:min(8.8vw,38px)}
   h1{font-size:min(13.6vw,72px);margin-top:-1vw}
