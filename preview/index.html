@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Atlas · The map to your financial world</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="If you hate QuickBooks, meet Atlas, the map to your financial world.">
+<link rel="icon" type="image/x-icon" href="../convert.ico">
+<link rel="preload" as="image" href="atlas.webp" type="image/webp" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500&family=Cinzel:wght@700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+/* Poster: painting 2528x1696 (ratio 1.4906). Portrait: words in drawn sky above, painting at the bottom at the agreed zoom.
+   Wide: painting full width, never cropped, words in its own sky at top left. */
+:root{--ink:#08121F;--navy:#0B1A2C;--cream:#F3EAD8;--cream-dim:rgba(243,234,216,.75);--gold:#D9B47A;--gold-light:#D4AE7A;
+  --display:"Cinzel",Georgia,serif;--serif:"Cormorant Garamond",Georgia,serif;--label:"Barlow Condensed","Arial Narrow",sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#09101c}
+body{font-family:var(--serif);color:var(--cream);background:#09101c}
+.poster{position:relative;display:flex;flex-direction:column;min-height:100svh;overflow:hidden;
+  background:linear-gradient(180deg,#070c16 0,#080d18 35%,#09101c 60%,#0a111d 100%)}
+.stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.words{position:relative;z-index:2;text-align:center;display:grid;justify-items:center;padding:calc(20px + env(safe-area-inset-top)) 22px 10px;flex:1 1 auto;align-content:space-evenly}
+.welcome{font:500 13px/1.4 var(--label);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-light)}
+.pre{font:500 27px/1.2 var(--serif);color:var(--cream)}
+h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color:var(--gold);letter-spacing:.02em}
+.tag{font:italic 500 20px/1.35 var(--serif);color:var(--cream-dim)}
+.art{position:relative;z-index:1;flex:0 0 auto;width:100%;height:clamp(360px,66svh,720px);
+  background:url(atlas.webp) 76% 100%/auto 100% no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 6%);mask-image:linear-gradient(180deg,transparent 0,#000 6%)}
+.art::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,rgba(9,16,28,0),rgba(9,16,28,.55) 55%,rgba(9,16,28,.92));pointer-events:none}
+.cta{position:absolute;z-index:2;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));text-align:center}
+.btn{font:700 13px var(--display);letter-spacing:.16em;text-transform:uppercase;border:0;border-radius:2px;padding:17px 28px;cursor:pointer;background:var(--gold);color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+.meta{font:italic 500 15px var(--serif);color:var(--cream);opacity:.85;margin-top:10px}
+@media (min-aspect-ratio:1/1){
+  /* one screen tall; painting full width, bottom-anchored; at most the top 18% (empty sky) may go off-screen.
+     If the screen is shorter than that allows, the painting shrinks to fit and fades at its sides. */
+  .poster{display:block;height:100svh;min-height:0}
+  .poster{--aw:min(100vw, calc(100svh / 0.74 * 1.4906))}
+  .art{position:absolute;bottom:calc(-0.06 * var(--aw) / 1.4906);left:50%;transform:translateX(-50%);height:auto;
+    width:var(--aw);aspect-ratio:2528/1696;background-size:100% 100%;background-position:center bottom;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 4%),linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%);-webkit-mask-composite:source-in;
+    mask-image:linear-gradient(180deg,transparent 0,#000 4%),linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%);mask-composite:intersect}
+  .words{position:absolute;left:0;top:0;width:min(40%,640px);text-align:left;justify-items:start;align-content:start;padding:max(18px,4.2svh) 0 0 5vw;gap:min(.9vw,1.6svh)}
+  .welcome{font-size:max(10px,min(1vw,1.7svh))} .pre{font-size:min(2.3vw,4svh)} h1{font-size:min(4.6vw,8svh)} .tag{font-size:min(1.6vw,2.8svh)}
+  .cta{bottom:calc(0.06 * var(--aw) / 1.4906 + min(2.2vw,4svh))} .btn{font-size:max(11px,min(.95vw,1.7svh));padding:max(10px,min(1.1vw,1.9svh)) max(20px,min(2vw,3.5svh))} .meta{font-size:max(12px,min(1.05vw,1.9svh));margin-top:min(.7vw,1.2svh)}
+}
+/* waitlist sheet (the live site's wording) */
+.sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.7);padding:16px}
+[hidden]{display:none!important}
+.panel{width:100%;max-width:460px;background:#0E1A2B;color:var(--cream);border:1px solid rgba(217,180,122,.35);border-radius:6px;padding:26px 22px}
+.panel h2{font:700 22px/1.2 var(--display);letter-spacing:.04em;color:var(--gold);margin-bottom:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row input{flex:1 1 220px;min-width:0;font:16px Georgia,serif;padding:14px;border:1px solid rgba(243,234,216,.3);border-radius:3px;background:#fff;color:#0B1A2C}
+.row button,.again{font:700 13px var(--display);letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--ink);border:0;border-radius:3px;padding:14px 20px;cursor:pointer}
+.consent{font:14px/1.45 var(--serif);color:rgba(243,234,216,.75);margin-top:14px}
+.consent a{color:var(--gold)}
+.err{font:15px var(--serif);color:#F2B8A0;margin-top:10px}
+.close{float:right;background:none;border:0;font-size:26px;line-height:1;color:var(--cream);cursor:pointer;padding:0 4px}
+.done p{font:18px/1.4 var(--serif);margin-bottom:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="poster" id="poster">
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div class="words">
+    <p class="welcome">Welcome to the new age of accounting.</p>
+    <p class="pre">If you hate QuickBooks,</p>
+    <h1>MEET ATLAS</h1>
+    <p class="tag">The map to your financial world.</p>
+  </div>
+  <div class="art" role="img" aria-label="Atlas reclining at ease under the stars, the globe floating above his palm, a phone in his other hand">
+    <div class="cta"><button class="btn open" type="button">Join the waitlist &rarr;</button><div class="meta">Early access &middot; Founder discount</div></div>
+  </div>
+</main>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
+    <button class="close" type="button" id="wlClose" aria-label="Close">&times;</button>
+    <div id="wlAsk">
+      <h2 id="wlTitle">Join the waitlist</h2>
+      <form class="row" id="wlForm">
+        <input type="email" id="wlEmail" placeholder="you@company.com" required aria-label="Your email">
+        <button type="submit" id="wlSubmit">Join</button>
+      </form>
+      <p class="err" id="wlErr" hidden>That didn't go through. Please try again.</p>
+      <p class="consent">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="../privacy.html">Privacy Policy</a>.</p>
+    </div>
+    <div id="wlDone" class="done" hidden>
+      <p>You're on the list. We'll be in touch before launch.</p>
+      <button class="again" type="button" id="wlAgain">Add another person</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzWii84o6K5VI2Oe6Rv8wcwD-afCyV4fuwhvfgK6fj6oSZfe4l6pgTxsUWEF6-Kd2Zp-w/exec';
+const $ = id => document.getElementById(id);
+const openSheet = () => { $('sheet').hidden = false; $('wlEmail').focus(); };
+document.querySelectorAll('.open').forEach(b => b.addEventListener('click', openSheet));
+$('wlClose').addEventListener('click', () => { $('sheet').hidden = true; });
+$('sheet').addEventListener('click', e => { if (e.target.id === 'sheet') $('sheet').hidden = true; });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('sheet').hidden = true; });
+$('wlForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const email = $('wlEmail').value.trim(); if (!email) return;
+  $('wlErr').hidden = true; $('wlSubmit').disabled = true;
+  fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ email, source: 'atlasfinancials.io/preview', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) })
+    .then(() => { $('wlAsk').hidden = true; $('wlDone').hidden = false; })
+    .catch(() => { $('wlErr').hidden = false; })
+    .finally(() => { $('wlSubmit').disabled = false; });
+});
+$('wlAgain').addEventListener('click', () => { $('wlForm').reset(); $('wlDone').hidden = true; $('wlAsk').hidden = false; $('wlEmail').focus(); });
+
+(function(){
+  var sec=$('poster'), c=sec.querySelector('.stars'), x=c.getContext('2d'), art=sec.querySelector('.art');
+  function draw(){
+    var r=window.devicePixelRatio||1, w=sec.clientWidth, h=sec.clientHeight;
+    c.width=w*r; c.height=h*r; x.setTransform(r,0,0,r,0,0); x.clearRect(0,0,w,h);
+    var s=7; function rnd(){ s=(s*16807)%2147483647; return s/2147483647; }
+    var top=art.getBoundingClientRect().top-sec.getBoundingClientRect().top+art.clientHeight*0.1;
+    var n=Math.round(w*h/260);
+    for(var i=0;i<n;i++){
+      var px=rnd()*w, py=rnd()*h;
+      var t=Math.max(0,Math.min(1,py/Math.max(top,1))), keep=0.16+0.84*Math.pow(t,1.6);
+      if(py>top) keep=Math.max(0,1-(py-top)/(art.clientHeight*0.15));
+      if(rnd()>keep) continue;
+      var big=rnd()<.05, rad=big?(.8+rnd()*.7):(.3+rnd()*.45), a=((big?.55:.22)+rnd()*.35)*(0.55+0.45*t), warm=rnd()<.35;
+      x.fillStyle=warm?'rgba(232,200,140,'+a+')':'rgba(220,226,240,'+a+')';
+      x.beginPath(); x.arc(px,py,rad,0,6.283); x.fill();
+    }
+  }
+  draw(); var tm; addEventListener('resize',function(){clearTimeout(tm);tm=setTimeout(draw,120);});
+  if(window.ResizeObserver) new ResizeObserver(function(){clearTimeout(tm);tm=setTimeout(draw,60);}).observe(sec);
+})();
+</script>
+</body>
+</html>
