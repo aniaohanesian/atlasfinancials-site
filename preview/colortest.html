@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<title>Colour check</title>
+<style>body{margin:0;padding:24px;background:#070c16;color:#F3EAD8;font:18px/1.5 Georgia,serif}h1{font-size:22px}table{border-collapse:collapse;margin:16px 0}td{padding:6px 12px;border-bottom:1px solid #223}.sw{display:inline-block;width:120px;height:60px;margin-right:12px;vertical-align:middle}</style></head><body>
+<h1>Colour check: send Genie a screenshot of this page</h1>
+<table id="t"></table>
+<p><span class="sw" style="background:#D9B47A"></span>Gold used for "MEET ATLAS" and the button</p>
+<script>
+const q=m=>matchMedia(m).matches?'yes':'no';
+const rows=[['Wide colour (P3)',q('(color-gamut: p3)')],['Very wide colour (Rec.2020)',q('(color-gamut: rec2020)')],['HDR screen',q('(dynamic-range: high)')],
+['Pixel ratio',devicePixelRatio],['Screen',screen.width+' x '+screen.height],['Colour depth',screen.colorDepth+' bit'],['Browser',navigator.userAgent.replace(/\(.*?\)/,'').trim()]];
+document.getElementById('t').innerHTML=rows.map(r=>'<tr><td>'+r[0]+'</td><td><b>'+r[1]+'</b></td></tr>').join('');
+</script></body></html>
