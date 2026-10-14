@@ -6,12 +6,12 @@
 <title>Atlas · The map to your financial world</title>
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#070c16">
-<meta name="description" content="If you hate QuickBooks, meet Atlas, the map to your financial world.">
+<meta name="description" content="Welcome to the new age of accounting. Meet Atlas, the map to your financial world.">
 <link rel="icon" type="image/x-icon" href="../convert.ico">
 <link rel="preload" as="image" href="atlas.webp" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500&family=DM+Sans:wght@400;500&family=Inter+Tight:wght@600&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500&family=DM+Sans:wght@400;500&family=Inter+Tight:wght@400;600&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
 <style>
 /* Poster: painting 2528x1696 (ratio 1.4906). Portrait: words in drawn sky above, painting at the bottom at the agreed zoom.
    Wide: painting full width, never cropped, words in its own sky at top left. */
@@ -26,7 +26,7 @@ body{font-family:var(--serif);color:var(--cream);background:#070c16}
 .stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .words{position:relative;z-index:2;text-align:center;display:grid;justify-items:center;padding:calc(20px + env(safe-area-inset-top)) 22px 10px;flex:1 1 auto;align-content:space-evenly}
 .welcome{font:500 13px/1.4 var(--label);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-light)}
-.pre{font:500 27px/1.2 var(--serif);color:var(--cream)}
+.pre{font:400 20px/1.3 var(--display);letter-spacing:.02em;color:var(--cream-dim)}
 h1{white-space:nowrap;font:600 clamp(38px,11.2vw,64px)/1.05 var(--display);color:var(--gold);letter-spacing:.06em}
 .tag{font:italic 500 20px/1.35 var(--serif);color:var(--cream-dim)}
 .art{position:relative;z-index:1;flex:0 0 auto;width:100%;height:clamp(360px,66svh,720px);
@@ -46,7 +46,7 @@ h1{white-space:nowrap;font:600 clamp(38px,11.2vw,64px)/1.05 var(--display);color
   .words{position:absolute;left:0;right:0;top:0;height:calc(100svh - var(--ah) * 0.85);align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
   .art{height:var(--ah);margin-top:calc(100svh - var(--ah))}
   .welcome{font-size:min(3.55vw,16px);white-space:nowrap}
-  .pre{font-size:min(8.8vw,38px)}
+  .pre{font-size:min(5.4vw,24px)}
   h1{font-size:min(13.6vw,72px);margin-top:-1vw}
   .tag{font-size:min(6.6vw,28px)}
   .cta{bottom:max(4px, calc(env(safe-area-inset-bottom) - 18px))}
@@ -63,7 +63,7 @@ h1{white-space:nowrap;font:600 clamp(38px,11.2vw,64px)/1.05 var(--display);color
     padding:0 2vw 0 max(22px,5vw)}
   .words{position:static;text-align:left;justify-items:start;align-content:start;padding:0;gap:min(1vw,1.8svh);flex:none}
   h1{font-size:min(5.4vw,12svh);white-space:nowrap}
-  .pre{font-size:min(2.8vw,6.2svh)}
+  .pre{font-size:min(1.7vw,3.8svh)}
   .welcome{font-size:max(10px,min(1.15vw,2.6svh))}
   .tag{font-size:min(2vw,4.6svh)}
   .cta{position:static;text-align:left;padding-top:min(3vw,5svh)}
@@ -96,7 +96,7 @@ h1{white-space:nowrap;font:600 clamp(38px,11.2vw,64px)/1.05 var(--display);color
   <div class="copy">
   <div class="words">
     <p class="welcome">Welcome to the new age of accounting</p>
-    <p class="pre">If you hate QuickBooks,</p>
+    <p class="pre" data-nosnippet>If you hate QuickBooks,</p>
     <h1>MEET ATLAS</h1>
     <p class="tag">The map to your financial world</p>
   </div>
