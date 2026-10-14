@@ -36,6 +36,16 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
 .btn{font:700 13px var(--display);letter-spacing:.16em;text-transform:uppercase;border:0;border-radius:2px;padding:17px 28px;cursor:pointer;background:var(--gold);color:var(--ink)}
 .btn:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
 .meta{font:italic 500 15px var(--serif);color:var(--cream);opacity:.85;margin-top:10px}
+/* upright phone (14 Oct, her sketch): top line stays put; the four lines spread out so the last one sits just above the globe */
+@media (max-aspect-ratio:1/1){
+  .poster{--ah:clamp(360px,66svh,720px)}
+  .words{align-content:space-between;padding:calc(38px + env(safe-area-inset-top)) 22px 0}
+  .art{height:var(--ah);margin-top:calc(var(--ah) * -0.15)}
+  .welcome{font-size:min(3.55vw,16px);white-space:nowrap}
+  .pre{font-size:min(8.6vw,36px)}
+  h1{font-size:min(13.4vw,70px)}
+  .tag{font-size:min(6.4vw,27px)}
+}
 @media (min-aspect-ratio:1/1){
   /* painting always the full width of the screen, never cropped; page is as tall as the painting (scrolls on short screens) */
   .poster{display:block;height:auto;min-height:max(100svh,calc(100vw / 1.4906))}
