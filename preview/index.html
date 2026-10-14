@@ -49,26 +49,21 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
   .meta{margin-top:8px}
 }
 @media (min-aspect-ratio:1/1){
-  .poster{display:block;height:100svh;min-height:0;--P:calc(100vw / 1.4906);--y:max(calc(100svh - var(--P)), calc(var(--P) * -0.06))}
-  .art{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;background-size:100vw auto;background-position:center var(--y);
-    -webkit-mask-image:linear-gradient(180deg,transparent max(0px,var(--y)),#000 calc(max(0px,var(--y)) + 3vw));mask-image:linear-gradient(180deg,transparent max(0px,var(--y)),#000 calc(max(0px,var(--y)) + 3vw))}
-  .art::after{height:30%}
-  .words{position:absolute;left:0;top:max(0px,var(--y));width:42%;text-align:left;justify-items:start;align-content:start;
-    padding:min(3.4vw,6svh) 0 0 4.5vw;gap:min(.8vw,1.6svh)}
+  /* wide screens (computer, phone sideways): the painting always fills the full width and scrolls;
+     the words stay pinned at the top while the painting slides up underneath; the button arrives at the painting's bottom */
+  .poster{display:block;position:relative;height:max(100svh, calc(100vw / 1.4906));min-height:0;overflow:clip}
+  .art{position:absolute;left:0;right:0;top:max(0px, calc(100svh - 100vw / 1.4906));width:100%;height:calc(100vw / 1.4906);
+    background-size:100% 100%;background-position:center top;-webkit-mask-image:none;mask-image:none}
+  .art::after{height:26%}
+  .words{position:sticky;top:0;z-index:3;width:44%;text-align:left;justify-items:start;align-content:start;
+    padding:min(3.4vw,6svh) 0 0 4.5vw;gap:min(.8vw,1.6svh);text-shadow:0 2px 18px rgba(4,8,16,.75)}
   h1{font-size:min(5.3vw,12svh)}
   .pre{font-size:min(2.75vw,6.2svh)}
   .welcome{font-size:max(10px,min(1.15vw,2.6svh))}
   .tag{font-size:min(2vw,4.6svh)}
-  .cta{bottom:min(2.6vw,4.5svh)}
+  .cta{bottom:min(2.6vw,5svh)}
   .btn{font-size:max(11px,min(1vw,2.3svh));padding:max(10px,min(1.1vw,2.4svh)) max(20px,min(2vw,4.4svh))}
   .meta{font-size:max(12px,min(1.1vw,2.6svh));margin-top:min(.7vw,1.4svh)}
-}
-/* very wide, short screens (phone sideways): painting as large as the height allows, centred, soft fades left and right into the starry sky */
-@media (min-aspect-ratio:2/1){
-  .art{left:50%;right:auto;width:calc(100svh * 1.4906);transform:translateX(-50%);background-size:100% 100%;background-position:center;
-    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%)}
-  .words{top:0;width:auto;max-width:calc(50vw - 100svh * 1.4906 * 0.12);padding:6svh 0 0 4vw;gap:1.6svh}
-  h1{font-size:min(11.5svh,5.4vw)} .pre{font-size:min(6svh,2.8vw)} .welcome{font-size:max(10px,min(2.6svh,1.2vw))} .tag{font-size:min(4.6svh,2.1vw)}
 }
 /* waitlist sheet (the live site's wording) */
 .sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.7);padding:16px}
