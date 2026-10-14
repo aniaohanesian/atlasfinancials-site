@@ -36,24 +36,39 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
 .btn{font:700 13px var(--display);letter-spacing:.16em;text-transform:uppercase;border:0;border-radius:2px;padding:17px 28px;cursor:pointer;background:var(--gold);color:var(--ink)}
 .btn:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
 .meta{font:italic 500 15px var(--serif);color:var(--cream);opacity:.85;margin-top:10px}
-/* upright phone (14 Oct, her sketch): top line stays put; the four lines spread out so the last one sits just above the globe */
+/* upright phone: one tight group of words (like the sideways view), centred in the sky above the globe; button close to the bottom */
 @media (max-aspect-ratio:1/1){
   .poster{--ah:clamp(360px,66svh,720px)}
-  .words{align-content:space-between;padding:calc(38px + env(safe-area-inset-top)) 22px 0}
+  .words{align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
   .art{height:var(--ah);margin-top:calc(var(--ah) * -0.15)}
   .welcome{font-size:min(3.55vw,16px);white-space:nowrap}
-  .pre{font-size:min(8.6vw,36px)}
-  h1{font-size:min(13.4vw,70px)}
-  .tag{font-size:min(6.4vw,27px)}
+  .pre{font-size:min(8.8vw,38px)}
+  h1{font-size:min(13.6vw,72px);margin-top:-1vw}
+  .tag{font-size:min(6.6vw,28px)}
+  .cta{bottom:calc(8px + env(safe-area-inset-bottom))}
+  .meta{margin-top:8px}
 }
 @media (min-aspect-ratio:1/1){
-  /* painting always the full width of the screen, never cropped; page is as tall as the painting (scrolls on short screens) */
-  .poster{display:block;height:auto;min-height:max(100svh,calc(100vw / 1.4906))}
-  .art{position:absolute;left:0;right:0;bottom:0;height:auto;width:100%;aspect-ratio:2528/1696;background-size:100% 100%;background-position:center bottom;
-    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 4%);mask-image:linear-gradient(180deg,transparent 0,#000 4%)}
-  .words{position:absolute;left:0;top:max(0px,calc(100% - 100vw / 1.4906));width:min(40%,640px);text-align:left;justify-items:start;align-content:start;padding:3.2vw 0 0 5vw;gap:.9vw}
-  .welcome{font-size:max(10px,1vw)} .pre{font-size:2.3vw} h1{font-size:4.6vw} .tag{font-size:1.6vw}
-  .cta{bottom:2.6vw} .btn{font-size:max(11px,.95vw);padding:max(10px,1.1vw) max(20px,2vw)} .meta{font-size:max(12px,1.05vw);margin-top:.7vw}
+  .poster{display:block;height:100svh;min-height:0;--P:calc(100vw / 1.4906);--y:max(calc(100svh - var(--P)), calc(var(--P) * -0.19))}
+  .art{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;background-size:100vw auto;background-position:center var(--y);
+    -webkit-mask-image:linear-gradient(180deg,transparent max(0px,var(--y)),#000 calc(max(0px,var(--y)) + 3vw));mask-image:linear-gradient(180deg,transparent max(0px,var(--y)),#000 calc(max(0px,var(--y)) + 3vw))}
+  .art::after{height:30%}
+  .words{position:absolute;left:0;top:max(0px,var(--y));width:42%;text-align:left;justify-items:start;align-content:start;
+    padding:min(3.4vw,6svh) 0 0 4.5vw;gap:min(.8vw,1.6svh)}
+  h1{font-size:min(5.3vw,12svh)}
+  .pre{font-size:min(2.75vw,6.2svh)}
+  .welcome{font-size:max(10px,min(1.15vw,2.6svh))}
+  .tag{font-size:min(2vw,4.6svh)}
+  .cta{bottom:min(2.6vw,4.5svh)}
+  .btn{font-size:max(11px,min(1vw,2.3svh));padding:max(10px,min(1.1vw,2.4svh)) max(20px,min(2vw,4.4svh))}
+  .meta{font-size:max(12px,min(1.1vw,2.6svh));margin-top:min(.7vw,1.4svh)}
+}
+/* very wide, short screens (phone sideways): painting as large as the height allows, centred, soft fades left and right into the starry sky */
+@media (min-aspect-ratio:2/1){
+  .art{left:50%;right:auto;width:calc(100svh * 1.4906);transform:translateX(-50%);background-size:100% 100%;background-position:center;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%)}
+  .words{top:0;width:auto;max-width:calc(50vw - 100svh * 1.4906 * 0.12);padding:6svh 0 0 4vw;gap:1.6svh}
+  h1{font-size:min(11.5svh,5.4vw)} .pre{font-size:min(6svh,2.8vw)} .welcome{font-size:max(10px,min(2.6svh,1.2vw))} .tag{font-size:min(4.6svh,2.1vw)}
 }
 /* waitlist sheet (the live site's wording) */
 .sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.7);padding:16px}
@@ -136,6 +151,7 @@ $('wlAgain').addEventListener('click', () => { $('wlForm').reset(); $('wlDone').
       var px=rnd()*w, py=rnd()*h;
       var t=Math.max(0,Math.min(1,py/Math.max(top,1))), keep=0.16+0.84*Math.pow(t,1.6);
       if(py>top) keep=Math.max(0,1-(py-top)/(art.clientHeight*0.15));
+      if(w/h>=2){ t=0.7; keep=0.5; }
       if(rnd()>keep) continue;
       var big=rnd()<.05, rad=big?(.8+rnd()*.7):(.3+rnd()*.45), a=((big?.55:.22)+rnd()*.35)*(0.55+0.45*t), warm=rnd()<.35;
       x.fillStyle=warm?'rgba(232,200,140,'+a+')':'rgba(220,226,240,'+a+')';
