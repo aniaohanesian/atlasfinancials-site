@@ -45,11 +45,11 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
   .pre{font-size:min(8.8vw,38px)}
   h1{font-size:min(13.6vw,72px);margin-top:-1vw}
   .tag{font-size:min(6.6vw,28px)}
-  .cta{bottom:calc(8px + env(safe-area-inset-bottom))}
+  .cta{bottom:max(4px, calc(env(safe-area-inset-bottom) - 18px))}
   .meta{margin-top:8px}
 }
 @media (min-aspect-ratio:1/1){
-  .poster{display:block;height:100svh;min-height:0;--P:calc(100vw / 1.4906);--y:max(calc(100svh - var(--P)), calc(var(--P) * -0.19))}
+  .poster{display:block;height:100svh;min-height:0;--P:calc(100vw / 1.4906);--y:max(calc(100svh - var(--P)), calc(var(--P) * -0.06))}
   .art{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;background-size:100vw auto;background-position:center var(--y);
     -webkit-mask-image:linear-gradient(180deg,transparent max(0px,var(--y)),#000 calc(max(0px,var(--y)) + 3vw));mask-image:linear-gradient(180deg,transparent max(0px,var(--y)),#000 calc(max(0px,var(--y)) + 3vw))}
   .art::after{height:30%}
