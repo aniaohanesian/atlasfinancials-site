@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Atlas · The map to your financial world</title>
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#070c16">
 <meta name="description" content="If you hate QuickBooks, meet Atlas, the map to your financial world.">
 <link rel="icon" type="image/x-icon" href="../convert.ico">
 <link rel="preload" as="image" href="atlas.webp" type="image/webp" fetchpriority="high">
@@ -17,10 +18,10 @@
 :root{--ink:#08121F;--navy:#0B1A2C;--cream:#F3EAD8;--cream-dim:rgba(243,234,216,.75);--gold:#D9B47A;--gold-light:#D4AE7A;
   --display:"Cinzel",Georgia,serif;--serif:"Cormorant Garamond",Georgia,serif;--label:"Barlow Condensed","Arial Narrow",sans-serif;color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
-html{background:#09101c}
-body{font-family:var(--serif);color:var(--cream);background:#09101c}
+html{background:#070c16}
+body{font-family:var(--serif);color:var(--cream);background:#070c16}
 .poster{position:relative;display:flex;flex-direction:column;min-height:100svh;overflow:hidden;
-  background:linear-gradient(180deg,#070c16 0,#080d18 35%,#09101c 60%,#0a111d 100%)}
+  background:#070c16}
 .stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .words{position:relative;z-index:2;text-align:center;display:grid;justify-items:center;padding:calc(20px + env(safe-area-inset-top)) 22px 10px;flex:1 1 auto;align-content:space-evenly}
 .welcome{font:500 13px/1.4 var(--label);letter-spacing:.24em;text-transform:uppercase;color:var(--gold-light)}
@@ -30,23 +31,19 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
 .art{position:relative;z-index:1;flex:0 0 auto;width:100%;height:clamp(360px,66svh,720px);
   background:url(atlas.webp) 76% 100%/auto 100% no-repeat;
   -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 6%);mask-image:linear-gradient(180deg,transparent 0,#000 6%)}
-.art::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,rgba(9,16,28,0),rgba(9,16,28,.55) 55%,rgba(9,16,28,.92));pointer-events:none}
+.art::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:34%;background:linear-gradient(180deg,rgba(7,12,22,0),rgba(7,12,22,.6) 55%,#070c16 97%,#070c16);pointer-events:none}
 .cta{position:absolute;z-index:2;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));text-align:center}
 .btn{font:700 13px var(--display);letter-spacing:.16em;text-transform:uppercase;border:0;border-radius:2px;padding:17px 28px;cursor:pointer;background:var(--gold);color:var(--ink)}
 .btn:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
 .meta{font:italic 500 15px var(--serif);color:var(--cream);opacity:.85;margin-top:10px}
 @media (min-aspect-ratio:1/1){
-  /* one screen tall; painting full width, bottom-anchored; at most the top 18% (empty sky) may go off-screen.
-     If the screen is shorter than that allows, the painting shrinks to fit and fades at its sides. */
-  .poster{display:block;height:100svh;min-height:0}
-  .poster{--aw:min(100vw, calc(100svh / 0.74 * 1.4906))}
-  .art{position:absolute;bottom:calc(-0.06 * var(--aw) / 1.4906);left:50%;transform:translateX(-50%);height:auto;
-    width:var(--aw);aspect-ratio:2528/1696;background-size:100% 100%;background-position:center bottom;
-    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 4%),linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%);-webkit-mask-composite:source-in;
-    mask-image:linear-gradient(180deg,transparent 0,#000 4%),linear-gradient(90deg,transparent 0,#000 3%,#000 97%,transparent 100%);mask-composite:intersect}
-  .words{position:absolute;left:0;top:0;width:min(40%,640px);text-align:left;justify-items:start;align-content:start;padding:max(18px,4.2svh) 0 0 5vw;gap:min(.9vw,1.6svh)}
-  .welcome{font-size:max(10px,min(1vw,1.7svh))} .pre{font-size:min(2.3vw,4svh)} h1{font-size:min(4.6vw,8svh)} .tag{font-size:min(1.6vw,2.8svh)}
-  .cta{bottom:calc(0.06 * var(--aw) / 1.4906 + min(2.2vw,4svh))} .btn{font-size:max(11px,min(.95vw,1.7svh));padding:max(10px,min(1.1vw,1.9svh)) max(20px,min(2vw,3.5svh))} .meta{font-size:max(12px,min(1.05vw,1.9svh));margin-top:min(.7vw,1.2svh)}
+  /* painting always the full width of the screen, never cropped; page is as tall as the painting (scrolls on short screens) */
+  .poster{display:block;height:auto;min-height:max(100svh,calc(100vw / 1.4906))}
+  .art{position:absolute;left:0;right:0;bottom:0;height:auto;width:100%;aspect-ratio:2528/1696;background-size:100% 100%;background-position:center bottom;
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 4%);mask-image:linear-gradient(180deg,transparent 0,#000 4%)}
+  .words{position:absolute;left:0;top:max(0px,calc(100% - 100vw / 1.4906));width:min(40%,640px);text-align:left;justify-items:start;align-content:start;padding:3.2vw 0 0 5vw;gap:.9vw}
+  .welcome{font-size:max(10px,1vw)} .pre{font-size:2.3vw} h1{font-size:4.6vw} .tag{font-size:1.6vw}
+  .cta{bottom:2.6vw} .btn{font-size:max(11px,.95vw);padding:max(10px,1.1vw) max(20px,2vw)} .meta{font-size:max(12px,1.05vw);margin-top:.7vw}
 }
 /* waitlist sheet (the live site's wording) */
 .sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.7);padding:16px}
@@ -68,10 +65,10 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
 <main class="poster" id="poster">
   <canvas class="stars" aria-hidden="true"></canvas>
   <div class="words">
-    <p class="welcome">Welcome to the new age of accounting.</p>
+    <p class="welcome">Welcome to the new age of accounting</p>
     <p class="pre">If you hate QuickBooks,</p>
     <h1>MEET ATLAS</h1>
-    <p class="tag">The map to your financial world.</p>
+    <p class="tag">The map to your financial world</p>
   </div>
   <div class="art" role="img" aria-label="Atlas reclining at ease under the stars, the globe floating above his palm, a phone in his other hand">
     <div class="cta"><button class="btn open" type="button">Join the waitlist &rarr;</button><div class="meta">Early access &middot; Founder discount</div></div>
