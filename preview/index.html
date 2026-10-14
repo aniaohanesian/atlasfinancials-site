@@ -11,7 +11,7 @@
 <link rel="preload" as="image" href="atlas.webp" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500&family=Cinzel:wght@700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500&family=DM+Sans:wght@400;500&family=Cinzel:wght@700&family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
 <style>
 /* Poster: painting 2528x1696 (ratio 1.4906). Portrait: words in drawn sky above, painting at the bottom at the agreed zoom.
    Wide: painting full width, never cropped, words in its own sky at top left. */
@@ -67,19 +67,21 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
   .btn{font-size:max(11px,min(1vw,2.3svh));padding:max(11px,min(1.2vw,2.6svh)) max(22px,min(2.2vw,4.6svh))}
   .meta{font-size:max(12px,min(1.1vw,2.6svh));margin-top:min(.8vw,1.6svh)}
 }
-/* waitlist sheet (the live site's wording) */
-.sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.7);padding:16px}
+/* waitlist pop-up: the earlier light version (cream panel, navy and blue text), her pick 14 Oct */
+.sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.6);padding:16px}
 [hidden]{display:none!important}
-.panel{width:100%;max-width:460px;background:#0E1A2B;color:var(--cream);border:1px solid rgba(217,180,122,.35);border-radius:6px;padding:26px 22px}
-.panel h2{font:700 22px/1.2 var(--display);letter-spacing:.04em;color:var(--gold);margin-bottom:14px}
+.panel{width:100%;max-width:520px;background:#F7F4EF;color:#0B1F3A;border-radius:16px;padding:26px 22px;font-family:"DM Sans",system-ui,sans-serif}
+.panel h2{font:500 40px/.95 var(--label);text-transform:uppercase;margin:0 0 6px;color:#0B1F3A}
+.panel p{margin:0 0 18px;color:#2D4A6B;font-size:15px;line-height:1.5}
 .row{display:flex;gap:8px;flex-wrap:wrap}
-.row input{flex:1 1 220px;min-width:0;font:16px Georgia,serif;padding:14px;border:1px solid rgba(243,234,216,.3);border-radius:3px;background:#fff;color:#0B1A2C}
-.row button,.again{font:700 13px var(--display);letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--ink);border:0;border-radius:3px;padding:14px 20px;cursor:pointer}
-.consent{font:14px/1.45 var(--serif);color:rgba(243,234,216,.75);margin-top:14px}
-.consent a{color:var(--gold)}
-.err{font:15px var(--serif);color:#F2B8A0;margin-top:10px}
-.close{float:right;background:none;border:0;font-size:26px;line-height:1;color:var(--cream);cursor:pointer;padding:0 4px}
-.done p{font:18px/1.4 var(--serif);margin-bottom:14px}
+.row input{flex:1 1 220px;min-width:0;font:16px "DM Sans",system-ui,sans-serif;padding:14px;border:1px solid rgba(11,31,58,.25);border-radius:6px;background:#fff;color:#0B1F3A}
+.row button,.again{font:500 15px var(--label);letter-spacing:.2em;text-transform:uppercase;background:#0B1F3A;color:#F7F4EF;border:0;border-radius:6px;padding:14px 20px;cursor:pointer}
+.again{background:transparent;color:#0B1F3A;border:1px solid rgba(11,31,58,.35)}
+.panel .consent{font-size:11.5px;color:#55657A;margin:12px 0 0}
+.panel .consent a{color:#1A4A7A}
+.panel .err{color:#A33A2A;font-size:14px;margin:10px 0 0}
+.close{float:right;background:none;border:0;font-size:26px;line-height:1;color:#0B1F3A;cursor:pointer;padding:0 4px}
+.done h2{color:#1F7A4D}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -103,7 +105,8 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
   <div class="panel" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
     <button class="close" type="button" id="wlClose" aria-label="Close">&times;</button>
     <div id="wlAsk">
-      <h2 id="wlTitle">Join the waitlist</h2>
+      <h2 id="wlTitle">Join the new age</h2>
+      <p>Launch updates, first access to Atlas, and an exclusive founder discount.</p>
       <form class="row" id="wlForm">
         <input type="email" id="wlEmail" placeholder="you@company.com" required aria-label="Your email">
         <button type="submit" id="wlSubmit">Join</button>
@@ -112,7 +115,8 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
       <p class="consent">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="../privacy.html">Privacy Policy</a>.</p>
     </div>
     <div id="wlDone" class="done" hidden>
-      <p>You're on the list. We'll be in touch before launch.</p>
+      <h2>You're on the list</h2>
+      <p>We'll be in touch before launch.</p>
       <button class="again" type="button" id="wlAgain">Add another person</button>
     </div>
   </div>
