@@ -71,7 +71,7 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
 .sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.6);padding:16px}
 [hidden]{display:none!important}
 .panel{width:100%;max-width:520px;background:#F7F4EF;color:#0B1F3A;border-radius:16px;padding:26px 22px;font-family:"DM Sans",system-ui,sans-serif}
-.panel h2{font:500 40px/.95 var(--label);text-transform:uppercase;margin:0 0 6px;color:#0B1F3A}
+.panel h2{font:700 min(30px,6.6vw)/1.1 var(--display);letter-spacing:.01em;text-transform:uppercase;white-space:nowrap;margin:0 0 8px;color:#0B1F3A}
 .panel p{margin:0 0 18px;color:#2D4A6B;font-size:15px;line-height:1.5}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .row input{flex:1 1 220px;min-width:0;font:16px "DM Sans",system-ui,sans-serif;padding:14px;border:1px solid rgba(11,31,58,.25);border-radius:6px;background:#fff;color:#0B1F3A}
@@ -106,7 +106,7 @@ h1{white-space:nowrap;font:700 clamp(38px,11.2vw,64px)/1.05 var(--display);color
     <button class="close" type="button" id="wlClose" aria-label="Close">&times;</button>
     <div id="wlAsk">
       <h2 id="wlTitle">Join the new age</h2>
-      <p>Launch updates, first access to Atlas, and an exclusive founder discount.</p>
+      <p>For launch updates, first access to Atlas, and an exclusive founder discount.</p>
       <form class="row" id="wlForm">
         <input type="email" id="wlEmail" placeholder="you@company.com" required aria-label="Your email">
         <button type="submit" id="wlSubmit">Join</button>
