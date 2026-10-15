@@ -25,7 +25,7 @@ body{font-family:var(--serif);color:var(--cream);background:#070c16}
 .copy{display:contents}
 .stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .words{position:relative;z-index:2;text-align:center;display:grid;justify-items:center;padding:calc(20px + env(safe-area-inset-top)) 22px 10px;flex:1 1 auto;align-content:space-evenly}
-.welcome{font:500 22px/1.35 var(--display);letter-spacing:.26em;text-transform:uppercase;color:var(--gold-light);text-wrap:balance}
+.welcome{font:500 22px/1.35 var(--display);letter-spacing:.26em;text-transform:uppercase;color:var(--gold-light);white-space:nowrap}
 .pre{font:500 12px/1.4 "Cormorant SC",serif;letter-spacing:.14em;color:rgba(243,234,216,.86)}
 h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var(--gold);letter-spacing:.07em;margin-right:-.07em}
 .tag{font:italic 400 20px/1.35 var(--serif);color:rgba(243,234,216,.72)}
@@ -45,8 +45,8 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
   .copy{display:block;position:fixed;left:0;right:0;top:0;height:100svh;z-index:3}
   .words{position:absolute;left:0;right:0;top:0;height:calc(100svh - var(--ah) * 0.85);align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
   .art{height:var(--ah);margin-top:calc(100svh - var(--ah))}
-  .welcome{font-size:min(5vw,22px)}
-  .pre{font-size:min(2.55vw,12px);white-space:nowrap;margin-top:1vw}
+  .welcome{font-size:calc((100vw - 46px) / 30.8)}
+  .pre{font-size:min(5vw,22px);white-space:nowrap;margin-top:1vw}
   h1{font-size:min(25vw,124px);margin-top:-1vw}
   .tag{font-size:min(6.6vw,28px)}
   .cta{bottom:max(4px, calc(env(safe-area-inset-bottom) - 18px))}
@@ -63,8 +63,8 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
     padding:0 2vw 0 max(22px,5vw)}
   .words{position:static;text-align:left;justify-items:start;align-content:start;padding:0;gap:min(1vw,1.8svh);flex:none}
   h1{font-size:min(8.6vw,19svh);white-space:nowrap}
-  .pre{font-size:max(10px,min(.85vw,2svh))}
-  .welcome{font-size:min(1.6vw,3.6svh)}
+  .pre{font-size:min(1.72vw,3.8svh)}
+  .welcome{font-size:calc((44vw - max(22px,5vw) - 8px) / 30.8)}
   .tag{font-size:min(2vw,4.6svh)}
   .cta{position:static;text-align:left;padding-top:min(3vw,5svh)}
   .btn{font-size:max(11px,min(1vw,2.3svh));padding:max(11px,min(1.2vw,2.6svh)) max(22px,min(2.2vw,4.6svh))}
