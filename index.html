@@ -76,6 +76,16 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 /* her idea 15 Oct: the globe turns slowly above his palm; drawn in code over the painted globe, the painting itself untouched */
 .spin{position:absolute;z-index:1;pointer-events:none;opacity:0;transition:opacity 1.6s ease}
 .spin.on{opacity:1}
+/* her idea 15 Oct: on phones every heading shows, the text under it starts closed behind a + so people get the highlights and open what they want */
+@media (max-width:760px){
+  .fold{cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .fold .ft{display:flex;justify-content:space-between;align-items:center;gap:14px}
+  .fold .ft::after{content:"";flex:none;width:26px;height:26px;border:1px solid rgba(217,180,122,.55);border-radius:50%;
+    background:linear-gradient(var(--gold),var(--gold)) center/11px 1.5px no-repeat,linear-gradient(var(--gold),var(--gold)) center/1.5px 11px no-repeat;transition:transform .3s ease}
+  .fold.open .ft::after{transform:rotate(45deg)}
+  .fold .body{overflow:hidden;max-height:0;opacity:0;margin-top:0!important;transition:max-height .35s ease,opacity .35s ease,margin-top .35s ease}
+  .fold.open .body{opacity:1;margin-top:10px!important}
+}
 /* waitlist pop-up: the earlier light version (cream panel, navy and blue text), her pick 14 Oct */
 .sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.6);padding:16px}
 /* phones: the pop-up is a card that rises from the bottom and sits flat on top of the keyboard (as in the artifact version) */
@@ -420,6 +430,22 @@ $('wlAgain').addEventListener('click', () => { $('wlForm').reset(); $('wlDone').
     addEventListener('resize',place);if(window.ResizeObserver)new ResizeObserver(place).observe(art);
     if(window.IntersectionObserver)new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(art);
   }).catch(function(){});
+})();
+</script>
+<script>
+/* phone fold-outs: tap a heading (or its +) to open the text under it */
+(function(){
+  var mq=matchMedia('(max-width:760px)');
+  document.querySelectorAll('.pain,.job,.plaque').forEach(function(it){
+    var t=it.querySelector('b,h3'),b=it.querySelector('.body'); if(!t||!b) return;
+    it.classList.add('fold'); t.classList.add('ft');
+    function set(open){ it.classList.toggle('open',open); b.style.maxHeight=open?b.scrollHeight+'px':''; if(mq.matches) t.setAttribute('aria-expanded',open) }
+    function arm(){ if(mq.matches){t.setAttribute('role','button');t.tabIndex=0;t.setAttribute('aria-expanded',it.classList.contains('open'))}
+      else {t.removeAttribute('role');t.removeAttribute('tabindex');t.removeAttribute('aria-expanded')} }
+    it.addEventListener('click',function(e){ if(!mq.matches||e.target.closest('a')) return; set(!it.classList.contains('open')) });
+    t.addEventListener('keydown',function(e){ if(mq.matches&&(e.key==='Enter'||e.key===' ')){e.preventDefault();set(!it.classList.contains('open'))} });
+    if(mq.addEventListener) mq.addEventListener('change',arm); arm();
+  });
 })();
 </script>
 </body>
