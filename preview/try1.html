@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Atlas · The map to your financial world</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#070c16">
+<meta name="description" content="Welcome to the new age of accounting. Meet Atlas, the map to your financial world.">
+<link rel="icon" type="image/x-icon" href="../convert.ico">
+<link rel="preload" as="image" href="atlas.webp" type="image/webp" fetchpriority="high">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Inter+Tight:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Poster: painting 2528x1696 (ratio 1.4906). Portrait: words in drawn sky above, painting at the bottom at the agreed zoom.
+   Wide: painting full width, never cropped, words in its own sky at top left. */
+:root{--ink:#08121F;--navy:#0B1A2C;--cream:#F3EAD8;--cream-dim:rgba(243,234,216,.75);--gold:#D9B47A;--gold-light:#D4AE7A;
+  --display:"Inter Tight","Helvetica Neue",Arial,sans-serif;--serif:"Cormorant Garamond",Georgia,serif;--label:"Barlow Condensed","Arial Narrow",sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#070c16}
+body{font-family:var(--serif);color:var(--cream);background:#070c16}
+.poster{position:relative;display:flex;flex-direction:column;min-height:100svh;overflow:hidden;
+  background:#070c16}
+.copy{display:contents}
+.stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.words{position:relative;z-index:2;text-align:center;display:grid;justify-items:center;padding:calc(20px + env(safe-area-inset-top)) 22px 10px;flex:1 1 auto;align-content:space-evenly}
+.welcome{font:500 22px/1.35 var(--display);letter-spacing:.26em;text-transform:uppercase;color:var(--gold-light);white-space:nowrap}
+.pre{font:500 12px/1.4 "Cormorant SC",serif;letter-spacing:.14em;color:rgba(243,234,216,.86)}
+h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var(--gold);letter-spacing:.07em;margin-right:-.07em}
+.tag{font:italic 400 20px/1.35 var(--serif);color:rgba(243,234,216,.72)}
+.art{position:relative;z-index:1;flex:0 0 auto;width:100%;height:clamp(360px,66svh,720px);
+  background:url(atlas.webp) 76% 100%/auto 100% no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 6%);mask-image:linear-gradient(180deg,transparent 0,#000 6%)}
+.art::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:34%;background:linear-gradient(180deg,rgba(7,12,22,0),rgba(7,12,22,.6) 55%,#070c16 97%,#070c16);pointer-events:none}
+.cta{position:absolute;z-index:2;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));text-align:center}
+.btn{font:600 12.5px var(--display);letter-spacing:.18em;text-transform:uppercase;border:0;border-radius:2px;padding:17px 28px;cursor:pointer;background:var(--gold);color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+.meta{font:italic 400 15px var(--serif);color:rgba(243,234,216,.7);margin-top:10px}
+/* upright phone: one tight group of words (like the sideways view), centred in the sky above the globe; button close to the bottom */
+@media (max-aspect-ratio:1/1){
+  /* like the computer: the page is a little taller than the screen, the words and button stay frozen and the painting
+     slides up under them as you scroll */
+  .poster{--ah:clamp(360px,66svh,720px);--extra:14svh;display:block;min-height:0;height:calc(100svh + var(--extra))}
+  .copy{display:block;position:fixed;left:0;right:0;top:0;height:100svh;z-index:3}
+  .words{position:absolute;left:0;right:0;top:0;height:calc(100svh - var(--ah) * 0.85);align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
+  .art{height:var(--ah);margin-top:calc(100svh - var(--ah))}
+  .welcome{font-size:calc((100vw - 46px) / 30.8)}
+  .pre{font-size:min(5vw,22px);white-space:nowrap;margin-top:1vw}
+  h1{font-size:min(25vw,124px);margin-top:-1vw}
+  .tag{font-size:min(6.6vw,28px)}
+  .cta{bottom:max(4px, calc(env(safe-area-inset-bottom) - 18px))}
+  .meta{margin-top:8px}
+}
+@media (min-aspect-ratio:1/1){
+  /* wide screens: painting on the right fading into the dark on its left (Frank style), a little taller than the screen so it
+     scrolls up and down a little; the words and button stay frozen on the left */
+  .poster{display:block;height:118svh;min-height:0;overflow:clip}
+  .art{position:absolute;right:0;top:0;bottom:0;width:64%;height:auto;margin:0;background-size:cover;background-position:78% 30%;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.55) 18%,#000 40%);mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.55) 18%,#000 40%)}
+  .art::after{height:18%}
+  .copy{display:flex;flex-direction:column;justify-content:center;position:fixed;left:0;top:0;height:100svh;width:46%;z-index:3;
+    padding:0 2vw 0 max(22px,5vw)}
+  .words{position:static;text-align:left;justify-items:start;align-content:start;padding:0;gap:min(1vw,1.8svh);flex:none}
+  h1{font-size:min(8.6vw,19svh);white-space:nowrap}
+  .pre{font-size:min(1.72vw,3.8svh)}
+  .welcome{font-size:calc((44vw - max(22px,5vw) - 8px) / 30.8)}
+  .tag{font-size:min(2vw,4.6svh)}
+  .cta{position:static;text-align:left;padding-top:min(3vw,5svh)}
+  .btn{font-size:max(11px,min(1vw,2.3svh));padding:max(11px,min(1.2vw,2.6svh)) max(22px,min(2.2vw,4.6svh))}
+  .meta{font-size:max(12px,min(1.1vw,2.6svh));margin-top:min(.8vw,1.6svh)}
+}
+/* waitlist pop-up: the earlier light version (cream panel, navy and blue text), her pick 14 Oct */
+.sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.6);padding:16px}
+/* phones: the pop-up is a card that rises from the bottom and sits flat on top of the keyboard (as in the artifact version) */
+@media (max-width:600px){.sheet{align-items:flex-end;padding:0}.sheet .panel{border-radius:18px 18px 0 0;padding-bottom:calc(26px + env(safe-area-inset-bottom,0px))}}
+[hidden]{display:none!important}
+.panel{width:100%;max-width:520px;background:#F7F4EF;color:#0B1F3A;border-radius:16px;padding:26px 22px;font-family:"DM Sans",system-ui,sans-serif}
+.panel h2{font:600 min(30px,6.6vw)/1.1 var(--display);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;margin:0 0 8px;color:#0B1F3A}
+.panel p{margin:0 0 18px;color:#2D4A6B;font-size:15px;line-height:1.5}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row input{flex:1 1 220px;min-width:0;font:16px "DM Sans",system-ui,sans-serif;padding:14px;border:1px solid rgba(11,31,58,.25);border-radius:6px;background:#fff;color:#0B1F3A}
+.row button,.again{font:600 14px var(--display);letter-spacing:.16em;text-transform:uppercase;background:#0B1F3A;color:#F7F4EF;border:0;border-radius:6px;padding:14px 20px;cursor:pointer}
+.again{background:transparent;color:#0B1F3A;border:1px solid rgba(11,31,58,.35)}
+.panel .consent{font-size:11.5px;color:#55657A;margin:12px 0 0}
+.panel .consent a{color:#1A4A7A}
+.panel .err{color:#A33A2A;font-size:14px;margin:10px 0 0}
+.close{float:right;background:none;border:0;font-size:26px;line-height:1;color:#0B1F3A;cursor:pointer;padding:0 4px}
+.done h2{color:#1F7A4D}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* try 1: the QuickBooks line in the button's font (size kept unless it would need a second line) */
+.pre{font-family:var(--display);font-weight:600;letter-spacing:.18em;text-transform:uppercase}
+@media (max-aspect-ratio:1/1){.pre{font-size:min(5vw,22px,calc((100vw - 46px) / 20.8))}}
+@media (min-aspect-ratio:1/1){.pre{font-size:min(1.72vw,3.8svh,calc((44vw - max(22px,5vw) - 8px) / 20.8))}}
+</style>
+</head>
+<body>
+<main class="poster" id="poster">
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div class="copy">
+  <div class="words">
+    <p class="welcome">Welcome to the new age of accounting</p>
+    <p class="pre" data-nosnippet>If you hate QuickBooks, meet</p>
+    <h1>ATLAS</h1>
+    <p class="tag">The map to your financial world</p>
+  </div>
+  <div class="cta"><button class="btn open" type="button">Join the waitlist &rarr;</button><div class="meta">Early access &middot; Exclusive discount</div></div>
+  </div>
+  <div class="art" role="img" aria-label="Atlas reclining at ease under the stars, the globe floating above his palm, a phone in his other hand"></div>
+
+</main>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
+    <button class="close" type="button" id="wlClose" aria-label="Close">&times;</button>
+    <div id="wlAsk">
+      <h2 id="wlTitle">Join the new age</h2>
+      <p>For launch updates, first access to Atlas, and an exclusive discount.</p>
+      <form class="row" id="wlForm">
+        <input type="email" id="wlEmail" placeholder="you@company.com" required aria-label="Your email">
+        <button type="submit" id="wlSubmit">Join</button>
+      </form>
+      <p class="err" id="wlErr" hidden>That didn't go through. Please try again.</p>
+      <p class="consent">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="../privacy.html">Privacy Policy</a>.</p>
+    </div>
+    <div id="wlDone" class="done" hidden>
+      <h2>You're on the list</h2>
+      <p>We'll be in touch before launch.</p>
+      <button class="again" type="button" id="wlAgain">Add another person</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzWii84o6K5VI2Oe6Rv8wcwD-afCyV4fuwhvfgK6fj6oSZfe4l6pgTxsUWEF6-Kd2Zp-w/exec';
+const $ = id => document.getElementById(id);
+const openSheet = () => { $('sheet').hidden = false; $('wlEmail').focus(); };
+// keep the pop-up's bottom edge on the keyboard: size the overlay to the part of the screen the keyboard leaves visible
+(function(){
+  var vv=window.visualViewport, sh=$('sheet'); if(!vv) return;
+  function fit(){ if(sh.hidden) return; sh.style.top=vv.offsetTop+'px'; sh.style.height=vv.height+'px'; sh.style.bottom='auto'; }
+  vv.addEventListener('resize',fit); vv.addEventListener('scroll',fit);
+  new MutationObserver(fit).observe(sh,{attributes:true,attributeFilter:['hidden']});
+})();
+document.querySelectorAll('.open').forEach(b => b.addEventListener('click', openSheet));
+$('wlClose').addEventListener('click', () => { $('sheet').hidden = true; });
+$('sheet').addEventListener('click', e => { if (e.target.id === 'sheet') $('sheet').hidden = true; });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('sheet').hidden = true; });
+$('wlForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const email = $('wlEmail').value.trim(); if (!email) return;
+  $('wlErr').hidden = true; $('wlSubmit').disabled = true;
+  fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ email, source: 'atlasfinancials.io/preview', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) })
+    .then(() => { $('wlAsk').hidden = true; $('wlDone').hidden = false; })
+    .catch(() => { $('wlErr').hidden = false; })
+    .finally(() => { $('wlSubmit').disabled = false; });
+});
+$('wlAgain').addEventListener('click', () => { $('wlForm').reset(); $('wlDone').hidden = true; $('wlAsk').hidden = false; $('wlEmail').focus(); });
+
+(function(){
+  var sec=$('poster'), c=sec.querySelector('.stars'), x=c.getContext('2d'), art=sec.querySelector('.art');
+  function draw(){
+    var r=window.devicePixelRatio||1, w=sec.clientWidth, h=sec.clientHeight;
+    c.width=w*r; c.height=h*r; x.setTransform(r,0,0,r,0,0); x.clearRect(0,0,w,h);
+    var s=7; function rnd(){ s=(s*16807)%2147483647; return s/2147483647; }
+    var top=art.getBoundingClientRect().top-sec.getBoundingClientRect().top+art.clientHeight*0.1;
+    var n=Math.round(w*h/260);
+    for(var i=0;i<n;i++){
+      var px=rnd()*w, py=rnd()*h;
+      var t=Math.max(0,Math.min(1,py/Math.max(top,1))), keep=0.16+0.84*Math.pow(t,1.6);
+      if(py>top) keep=Math.max(0,1-(py-top)/(art.clientHeight*0.15));
+      if(w>h){ t=0.6; keep=0.45; }
+
+      if(rnd()>keep) continue;
+      var big=rnd()<.05, rad=big?(.8+rnd()*.7):(.3+rnd()*.45), a=((big?.55:.22)+rnd()*.35)*(0.55+0.45*t), warm=rnd()<.35;
+      x.fillStyle=warm?'rgba(232,200,140,'+a+')':'rgba(220,226,240,'+a+')';
+      x.beginPath(); x.arc(px,py,rad,0,6.283); x.fill();
+    }
+  }
+  draw(); var tm; addEventListener('resize',function(){clearTimeout(tm);tm=setTimeout(draw,120);});
+  if(window.ResizeObserver) new ResizeObserver(function(){clearTimeout(tm);tm=setTimeout(draw,60);}).observe(sec);
+})();
+</script>
+</body>
+</html>
