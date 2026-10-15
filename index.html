@@ -1,319 +1,426 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Atlas · The map to your financial world</title>
-<meta name="description" content="Welcome to the new age of accounting. Meet Atlas, the map to your financial world. Know your numbers. Make better decisions.">
+<meta name="theme-color" content="#070c16">
+<meta name="description" content="Welcome to the new age of accounting. Meet Atlas, the map to your financial world.">
 <link rel="icon" type="image/x-icon" href="convert.ico">
+<link rel="preload" as="image" href="atlas.webp" type="image/webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&amp;display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter+Tight:wght@500;600&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy: #0B1F3A;
-  --blue: #1A4A7A;
-  --accent: #4A9EDB;
-  --accent-light: #7BBFE8;
-  --cream: #F7F4EF;
-  --warm-white: #FDFCFA;
-  --text-mid: #2D4A6B;
-  --border: rgba(26,74,122,0.12);
-  --gold: #B8955A;
-  --gold-light: #D4AE7A;
-  --serif: 'Cormorant Garamond', serif;
-  --sans: 'DM Sans', sans-serif;
+/* Poster: painting 2528x1696 (ratio 1.4906). Portrait: words in drawn sky above, painting at the bottom at the agreed zoom.
+   Wide: painting full width, never cropped, words in its own sky at top left. */
+:root{--ink:#08121F;--navy:#0B1A2C;--cream:#F3EAD8;--cream-dim:rgba(243,234,216,.75);--gold:#D9B47A;--gold-light:#D4AE7A;
+  --display:"Inter Tight","Helvetica Neue",Arial,sans-serif;--serif:"Cormorant Garamond",Georgia,serif;--label:"Barlow Condensed","Arial Narrow",sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#070c16}
+body{font-family:var(--serif);color:var(--cream);background:#070c16}
+.poster{position:relative;display:flex;flex-direction:column;min-height:100svh;overflow:clip;
+  background:#070c16}
+.copy{display:contents}
+.stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.words{position:relative;z-index:2;text-align:center;display:grid;justify-items:center;padding:calc(20px + env(safe-area-inset-top)) 22px 10px;flex:1 1 auto;align-content:space-evenly}
+/* her pick 14 Oct ('P'): line 1 in the serif with italic gold 'accounting', as large as fits on one line (its width is about 15 times its size);
+   line 2 in clean spaced capitals, its capitals about 68% the height of line 1's (size about 0.59 of line 1's) */
+.welcome{font:500 22px/1.3 var(--serif);letter-spacing:.01em;color:var(--gold-light);white-space:nowrap}
+.welcome em{font-style:italic;color:var(--gold)}
+.pre{font:500 12px/1.4 var(--display);letter-spacing:.26em;text-transform:uppercase;color:rgba(243,234,216,.86)}
+h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var(--gold);letter-spacing:.07em;margin-right:-.07em}
+.tag{font:italic 400 20px/1.35 var(--serif);color:rgba(243,234,216,.72)}
+.art{position:relative;z-index:1;flex:0 0 auto;width:100%;height:clamp(360px,66svh,720px);
+  background:url(atlas.webp) 76% 100%/auto 100% no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 6%);mask-image:linear-gradient(180deg,transparent 0,#000 6%)}
+.art::after{content:"";position:absolute;z-index:2;left:0;right:0;bottom:-1px;height:34%;background:linear-gradient(180deg,rgba(7,12,22,0),rgba(7,12,22,.6) 55%,#070c16 97%,#070c16);pointer-events:none}
+.cta{position:absolute;z-index:2;left:0;right:0;bottom:max(20px,env(safe-area-inset-bottom));text-align:center}
+.btn{font:600 12.5px var(--display);letter-spacing:.18em;text-transform:uppercase;border:0;border-radius:2px;padding:17px 28px;cursor:pointer;background:var(--gold);color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+.meta{font:italic 400 17px var(--serif);color:rgba(243,234,216,.7);margin-top:10px}
+/* upright phone: one tight group of words (like the sideways view), centred in the sky above the globe; button close to the bottom */
+@media (max-aspect-ratio:1/1){
+  /* like the computer: the page is a little taller than the screen, the words and button stay frozen and the painting
+     slides up under them as you scroll */
+  .poster{--ah:clamp(360px,66svh,720px);--extra:14svh;display:block;min-height:0;height:calc(100svh + var(--extra))}
+  .copy{display:block;position:sticky;top:0;height:100svh;z-index:3}
+  .words{position:absolute;left:0;right:0;top:0;height:calc(100svh - var(--ah) * 0.85);align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
+  .art{position:absolute;left:0;right:0;top:calc(100svh - var(--ah));height:var(--ah);margin:0}
+  .welcome{font-size:calc((100vw - 46px) / 15.2)}
+  .pre{font-size:max(9.5px, calc((100vw - 46px) / 25.9));white-space:nowrap;margin-top:1vw}
+  h1{font-size:min(25vw,124px);margin-top:-1vw}
+  .tag{font-size:min(6.6vw,28px)}
+  .cta{bottom:max(4px, calc(env(safe-area-inset-bottom) - 18px))}
+  .meta{margin-top:8px}
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: var(--sans); background: var(--warm-white); color: var(--navy); overflow-x: hidden; line-height: 1.6; }
-.wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
-
-/* ── NAV ── */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; height: 72px; padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; background: rgba(253,252,250,0.92); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(26,74,122,0.07); transition: box-shadow 0.3s; }
-nav.scrolled { box-shadow: 0 2px 32px rgba(11,31,58,0.09); }
-.nav-logo { font-family: var(--serif); font-size: 1.85rem; font-weight: 600; color: var(--navy); text-decoration: none; display: inline-flex; align-items: baseline; gap: 0.02em; }
-.nav-logo img { height: 1.18em; width: auto; }
-.nav-cta { background: var(--navy); color: #fff; padding: 0.6rem 1.4rem; border-radius: 3px; font-size: 0.85rem; font-weight: 500; text-decoration: none; letter-spacing: 0.03em; transition: background 0.2s, transform 0.2s; }
-.nav-cta:hover { background: var(--blue); transform: translateY(-1px); }
-
-/* ── SHARED ── */
-.eyebrow { display: inline-flex; align-items: center; gap: 0.7rem; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; }
-.eyebrow::before { content: ''; width: 24px; height: 1px; background: currentColor; }
-.h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.1rem, 3.8vw, 3.1rem); line-height: 1.12; }
-.h2 em { font-style: italic; }
-.lead { font-size: 1.02rem; line-height: 1.75; font-weight: 300; max-width: 560px; }
-.btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.95rem 2rem; background: var(--accent); color: #fff; font-family: var(--sans); font-size: 0.9rem; font-weight: 500; border: 0; border-radius: 3px; text-decoration: none; letter-spacing: 0.03em; cursor: pointer; box-shadow: 0 6px 28px rgba(74,158,219,0.32); transition: background 0.2s, transform 0.2s; }
-.btn:hover { background: #5BACE6; transform: translateY(-2px); }
-.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal.visible { opacity: 1; transform: none; }
-
-/* ── HERO ── */
-#hero { position: relative; overflow: hidden; background: var(--navy); color: #fff; padding: 150px 0 110px; }
-#hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 75% 45%, rgba(37,99,168,0.4) 0%, transparent 65%), linear-gradient(158deg, #0B1F3A 0%, #0D2545 55%, #081829 100%); }
-.hero-grid { position: relative; display: grid; grid-template-columns: 1.05fr 1fr; gap: 3rem; align-items: center; }
-#hero .eyebrow { color: var(--accent-light); }
-.hero-name { font-family: var(--serif); font-weight: 600; font-size: clamp(3.4rem, 7.5vw, 5.8rem); line-height: 1; letter-spacing: 0.01em; }
-.hero-tagline { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(1.4rem, 2.6vw, 2rem); color: var(--accent-light); margin: 0.6rem 0 1.6rem; line-height: 1.25; }
-.hero-sub { font-size: 1.04rem; line-height: 1.75; font-weight: 300; color: rgba(255,255,255,0.72); max-width: 500px; margin-bottom: 2.2rem; }
-.hero-covers { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; margin-top: 2rem; font-size: 0.8rem; color: rgba(255,255,255,0.55); letter-spacing: 0.02em; }
-.hero-covers span { display: inline-flex; align-items: center; gap: 0.5rem; }
-.hero-covers span::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--gold-light); }
-.hero-map { width: 100%; height: auto; display: block; }
-.hero-map .contour { fill: none; stroke: rgba(123,191,232,0.16); stroke-width: 1; }
-.hero-map .route { fill: none; stroke: var(--gold-light); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 4 9; }
-.hero-map .route-draw { fill: none; stroke: #0D2545; stroke-width: 5; stroke-dasharray: 900; stroke-dashoffset: 0; animation: reveal-route 2.6s 0.6s ease forwards; }
-.hero-map .pin { fill: #0D2545; stroke: var(--gold-light); stroke-width: 2; }
-.hero-map .pin.here { fill: var(--gold-light); }
-.hero-map .ring { fill: none; stroke: var(--gold-light); stroke-width: 1; opacity: 0; transform-box: fill-box; transform-origin: center; animation: ping 2.8s 2.2s ease-out infinite; }
-.hero-map text { font-family: var(--sans); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; fill: rgba(255,255,255,0.6); }
-.hero-map text.big { font-family: var(--serif); font-size: 21px; letter-spacing: 0; text-transform: none; font-style: italic; fill: #fff; }
-@keyframes reveal-route { to { stroke-dashoffset: 900; } }
-@keyframes ping { 0% { opacity: 0.7; transform: scale(1); } 100% { opacity: 0; transform: scale(3.2); } }
-
-/* ── PROBLEM ── */
-#problem { background: var(--cream); padding: 110px 0; }
-.problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
-.problem-quote { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(1.8rem, 3.2vw, 2.6rem); line-height: 1.25; border-left: 2px solid var(--accent); padding-left: 1.8rem; }
-.pains { list-style: none; }
-.pains li { padding: 1.4rem 0; border-top: 1px solid var(--border); display: grid; grid-template-columns: 2.4rem 1fr; gap: 0.6rem; }
-.pains li:last-child { border-bottom: 1px solid var(--border); }
-.pains .n { font-family: var(--serif); font-size: 1.3rem; color: var(--gold); line-height: 1.3; }
-.pains b { display: block; font-weight: 500; font-size: 1rem; margin-bottom: 0.2rem; }
-.pains p { font-size: 0.93rem; font-weight: 300; color: var(--text-mid); line-height: 1.7; }
-
-/* ── THREE JOBS ── */
-#how { background: var(--navy); color: #fff; padding: 110px 0; }
-#how .eyebrow { color: var(--accent-light); }
-#how .lead { color: rgba(255,255,255,0.62); margin-top: 1rem; }
-.how-head { max-width: 640px; margin-bottom: 4rem; }
-.jobs { display: grid; grid-template-columns: repeat(3, 1fr); position: relative; }
-.jobs::before { content: ''; position: absolute; top: 15px; left: 15px; right: 15px; border-top: 1px dashed rgba(212,174,122,0.45); }
-.job { position: relative; padding-right: 2.5rem; }
-.job .dot { width: 31px; height: 31px; border-radius: 50%; background: var(--navy); border: 1.5px solid var(--gold-light); display: grid; place-items: center; font-size: 0.72rem; font-weight: 600; color: var(--gold-light); margin-bottom: 1.8rem; position: relative; }
-.job.now .dot { background: var(--gold-light); color: var(--navy); }
-.job .where { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-light); margin-bottom: 0.6rem; }
-.job h3 { font-family: var(--serif); font-weight: 400; font-size: 1.75rem; line-height: 1.2; margin-bottom: 0.9rem; }
-.job p { font-size: 0.93rem; font-weight: 300; line-height: 1.75; color: rgba(255,255,255,0.66); }
-
-/* ── WHY ATLAS ── */
-#different { background: var(--cream); padding: 110px 0; }
-.diff-head { display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: end; margin-bottom: 3.5rem; }
-.diff-head .h2 em { color: var(--blue); }
-.diff-head .lead { color: var(--text-mid); }
-.diff-head .lead b { font-weight: 500; color: var(--navy); }
-.diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-.diff-card { background: #fff; padding: 2.4rem 2.2rem; transition: background 0.3s; }
-.diff-card:hover { background: #f8fbff; }
-.diff-card svg { width: 30px; height: 30px; stroke: var(--accent); fill: none; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 1.4rem; }
-.diff-card h3 { font-family: var(--serif); font-weight: 500; font-size: 1.45rem; line-height: 1.25; margin-bottom: 0.7rem; }
-.diff-card p { font-size: 0.9rem; font-weight: 300; color: var(--text-mid); line-height: 1.75; }
-
-/* ── WAITLIST ── */
-#waitlist { position: relative; overflow: hidden; background: var(--navy); color: #fff; padding: 120px 0; text-align: center; }
-#waitlist::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 55% 75% at 50% 45%, rgba(37,99,168,0.38) 0%, transparent 70%); }
-#waitlist .wrap { position: relative; }
-#waitlist .eyebrow { color: var(--accent-light); }
-#waitlist .eyebrow::before { display: none; }
-#waitlist .h2 em { color: var(--accent-light); }
-#waitlist .lead { color: rgba(255,255,255,0.6); margin: 1.2rem auto 2.6rem; }
-.wl-form { display: flex; gap: 0.6rem; max-width: 480px; margin: 0 auto; }
-.wl-form input { flex: 1; min-width: 0; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.16); border-radius: 3px; padding: 0.95rem 1.1rem; color: #fff; font-family: var(--sans); font-size: 0.92rem; outline: none; }
-.wl-form input::placeholder { color: rgba(255,255,255,0.3); }
-.wl-form input:focus { border-color: rgba(74,158,219,0.6); }
-.wl-again { display: flex; align-items: center; justify-content: center; gap: 0.45rem; margin: 1rem auto 0; background: transparent; border: 1px solid rgba(123,191,232,0.45); border-radius: 3px; padding: 0.6rem 1.2rem; color: #fff; font-family: var(--sans); font-size: 0.85rem; cursor: pointer; transition: background 0.2s; }
-.wl-again:hover { background: rgba(74,158,219,0.18); }
-.wl-success { display: none; max-width: 480px; margin: 0 auto; padding: 1.3rem; background: rgba(74,158,219,0.1); border: 1px solid rgba(74,158,219,0.25); border-radius: 4px; color: var(--accent-light); }
-.wl-consent { font-size: 0.72rem; color: rgba(255,255,255,0.32); max-width: 480px; margin: 1rem auto 0; line-height: 1.6; }
-.wl-call { margin-top: 2.2rem; font-size: 0.85rem; color: rgba(255,255,255,0.5); }
-.wl-call a { color: rgba(255,255,255,0.75); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.25); }
-
-/* ── FOOTER ── */
-footer { background: #060F1D; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-.footer-logo { font-family: var(--serif); font-size: 1.85rem; font-weight: 600; color: rgba(255,255,255,0.4); display: inline-flex; align-items: baseline; gap: 0.02em; }
-.footer-logo img { height: 1.18em; width: auto; }
-.footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.28); }
-.footer-copy a, .wl-consent a { color: rgba(255,255,255,0.5); }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  #hero { padding: 120px 0 80px; }
-  .hero-grid, .problem-grid, .diff-head { grid-template-columns: 1fr; gap: 2.8rem; }
-  .hero-map { max-width: 460px; }
-  #problem, #how, #different, #waitlist { padding: 80px 0; }
-  .jobs { grid-template-columns: 1fr; gap: 2.6rem; }
-  .jobs::before { top: 15px; bottom: 15px; left: 15px; right: auto; border-top: 0; border-left: 1px dashed rgba(212,174,122,0.45); }
-  .job { padding: 0 0 0 3.4rem; }
-  .job .dot { position: absolute; left: 0; top: 0; margin: 0; }
-  .diff-grid { grid-template-columns: 1fr; }
+@media (min-aspect-ratio:1/1){
+  /* wide screens: painting on the right fading into the dark on its left (Frank style), a little taller than the screen so it
+     scrolls up and down a little; the words and button stay frozen on the left */
+  .poster{display:block;height:118svh;min-height:0;overflow:clip}
+  .art{position:absolute;right:0;top:0;bottom:0;width:64%;height:auto;margin:0;background-size:cover;background-position:78% 30%;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.55) 18%,#000 40%);mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.55) 18%,#000 40%)}
+  .art::after{height:18%}
+  .copy{display:flex;flex-direction:column;justify-content:center;position:sticky;top:0;height:100svh;width:46%;z-index:3;
+    padding:0 2vw 0 max(22px,5vw)}
+  .words{position:static;text-align:left;justify-items:start;align-content:start;padding:0;gap:min(1vw,1.8svh);flex:none}
+  h1{font-size:min(8.6vw,19svh);white-space:nowrap}
+  .pre{font-size:max(10px, min(calc((44vw - max(22px,5vw) - 8px) / 25.9), 4.1svh))}
+  .welcome{font-size:min(calc((44vw - max(22px,5vw) - 8px) / 15.2), 7svh)}
+  .tag{font-size:min(2vw,4.6svh)}
+  .cta{position:static;text-align:left;padding-top:min(3vw,5svh)}
+  .btn{font-size:max(11px,min(1vw,2.3svh));padding:max(11px,min(1.2vw,2.6svh)) max(22px,min(2.2vw,4.6svh))}
+  .meta{font-size:max(14px,min(1.32vw,3.1svh));margin-top:min(.8vw,1.6svh)}
 }
-@media (max-width: 600px) {
-  nav { padding: 0 1rem; }
-  .nav-cta { padding: 0.55rem 1rem; font-size: 0.8rem; }
-  .wl-form { flex-direction: column; }
-  footer { flex-direction: column; text-align: center; }
+/* her idea 15 Oct: the globe turns slowly above his palm; drawn in code over the painted globe, the painting itself untouched */
+.spin{position:absolute;z-index:1;pointer-events:none;opacity:0;transition:opacity 1.6s ease}
+.spin.on{opacity:1}
+/* waitlist pop-up: the earlier light version (cream panel, navy and blue text), her pick 14 Oct */
+.sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.6);padding:16px}
+/* phones: the pop-up is a card that rises from the bottom and sits flat on top of the keyboard (as in the artifact version) */
+@media (max-width:600px){.sheet{align-items:flex-end;padding:0}.sheet .panel{border-radius:18px 18px 0 0;padding-bottom:calc(26px + env(safe-area-inset-bottom,0px))}}
+[hidden]{display:none!important}
+.panel{width:100%;max-width:520px;background:#F7F4EF;color:#0B1F3A;border-radius:16px;padding:26px 22px;font-family:"DM Sans",system-ui,sans-serif}
+.panel h2{font:600 min(30px,6.6vw)/1.1 var(--display);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;margin:0 0 8px;color:#0B1F3A}
+.panel p{margin:0 0 18px;color:#2D4A6B;font-size:15px;line-height:1.5}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row input{flex:1 1 220px;min-width:0;font:16px "DM Sans",system-ui,sans-serif;padding:14px;border:1px solid rgba(11,31,58,.25);border-radius:6px;background:#fff;color:#0B1F3A}
+.row button,.again{font:600 14px var(--display);letter-spacing:.16em;text-transform:uppercase;background:#0B1F3A;color:#F7F4EF;border:0;border-radius:6px;padding:14px 20px;cursor:pointer}
+.again{background:transparent;color:#0B1F3A;border:1px solid rgba(11,31,58,.35)}
+.panel .consent{font-size:11.5px;color:#55657A;margin:12px 0 0}
+.panel .consent a{color:#1A4A7A}
+.panel .err{color:#A33A2A;font-size:14px;margin:10px 0 0}
+.close{float:right;background:none;border:0;font-size:26px;line-height:1;color:#0B1F3A;cursor:pointer;padding:0 4px}
+.done h2{color:#1F7A4D}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* her ask 15 Oct: optical nudge, the straight I of IF reads a hair left of the pointed W and A */
+@media (min-aspect-ratio:1/1){.pre{padding-left:.12em}}
+
+/* ===== The rest of the page (15 Oct): the three live-homepage sections, her words unchanged, in the night-sky theme ===== */
+/* her ask 15 Oct: every gap between sections the same height (the Problem-to-map gap she approved: bottom 110 + top 64 on a computer) */
+:root{--G:clamp(96px,12.1vw,174px)} /* the one gap between sections */
+.sec{position:relative;overflow:clip;padding:calc(var(--G) * .37) 22px calc(var(--G) * .63);background:#070c16;color:var(--cream)}
+.you{padding-bottom:var(--G)}
+@media (min-aspect-ratio:1/1){.problem{padding-top:var(--G)}}
+@media (max-aspect-ratio:1/1){.problem{padding-top:var(--G);margin-top:0}} /* fix 15 Oct (her recording): the small print ran into THE PROBLEM */
+.sec .stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.inner{position:relative;z-index:1;max-width:1120px;margin:0 auto}
+.eyebrow{font:500 12px/1.3 var(--display);letter-spacing:.3em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:14px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--gold);opacity:.7}
+.body{font:400 16px/1.65 var(--display);color:rgba(243,234,216,.72)}
+/* 1. The problem: the quote over a dark sea horizon; the three pains rise in like the rest of the page (her ask 15 Oct: no blur) */
+/* her ask 15 Oct: no light-dark-light dip; the Problem section flows straight into the map colour (--join, set by the chosen colour) */
+body{--join:#0F2240}
+.problem{background:linear-gradient(180deg,#070c16 0%,#08101d 40%,var(--join) 100%)}
+/* her ask 15 Oct: less empty space between the Problem and the map; trim mostly from the map's top */
+.problem .split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:start}
+.problem .quote{font:italic 400 clamp(32px,4.2vw,58px)/1.14 var(--serif);color:var(--cream);margin:22px 0 0;text-wrap:balance}
+.problem .quote .blind{color:var(--gold)}
+.pains{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.pain{border-top:1px solid rgba(217,180,122,.3);padding:clamp(26px,3vw,38px) 0;}
+.pain:last-child{border-bottom:1px solid rgba(217,180,122,.3)}
+.pain b{display:block;font:500 clamp(25px,2.5vw,32px)/1.2 var(--serif);color:var(--gold-light);margin:0 0 12px}
+.pain p{margin:0}
+/* 2. How Atlas works: Frank-style dark gold room, three numbered cards on one route: been, here, going */
+.how{--hbg:radial-gradient(90% 75% at 50% 0%,#F6EEDC 0%,#EDE2C8 60%,#E3D5B6 100%);--hink:#0B1F3A;--hsub:#3E4D63;--hgold:#9C7536;--hnum:#9C7536;
+  --cbg:rgba(255,252,244,.55);--cbd:rgba(11,31,58,.16);--nbg:#0B1F3A;--nbd:#0B1F3A;--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbg:#EDE2C8;--pbd:#9C7536;--line:rgba(156,117,54,.6);--noise:.22;
+  /* her ask 15 Oct: fade into the dark blue above and below so the sections blend */
+  background:linear-gradient(180deg,var(--join) 0%,transparent 22%,transparent 76%,#070c16 100%),var(--hbg);color:var(--hink)}
+body.how-night .how{--hbg:radial-gradient(90% 75% at 50% 0%,#17305A 0%,#0F2240 55%,#0A182E 100%);--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;
+  --cbg:rgba(4,10,22,.35);--cbd:rgba(217,180,122,.22);--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbg:#0F2240;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1}
+body.how-sea .how{--hbg:radial-gradient(90% 75% at 50% 0%,#14424A 0%,#0C2E35 55%,#082027 100%);--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;
+  --cbg:rgba(2,14,17,.35);--cbd:rgba(217,180,122,.22);--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbg:#0C2E35;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1}
+body.how-wine .how{--hbg:radial-gradient(90% 75% at 50% 0%,#4A1622 0%,#33101A 55%,#220A11 100%);--cbg:rgba(18,4,8,.35);--pbg:#33101A;--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1;--cbd:rgba(217,180,122,.22)}
+body.how-emerald .how{--hbg:radial-gradient(90% 75% at 50% 0%,#17402F 0%,#0F2E22 55%,#0A2018 100%);--cbg:rgba(3,14,9,.35);--pbg:#0F2E22;--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1;--cbd:rgba(217,180,122,.22)}
+body.how-ink .how{--hbg:radial-gradient(90% 75% at 50% 0%,#262A33 0%,#1A1D24 55%,#111318 100%);--cbg:rgba(5,6,9,.35);--pbg:#1A1D24;--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1;--cbd:rgba(217,180,122,.22)}
+body.how-indigo .how{--hbg:radial-gradient(90% 75% at 50% 0%,#2A2760 0%,#1D1B47 55%,#141333 100%);--cbg:rgba(6,5,20,.35);--pbg:#1D1B47;--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1;--cbd:rgba(217,180,122,.22)}
+body.how-slate .how{--hbg:radial-gradient(90% 75% at 50% 0%,#2E3A4C 0%,#222C3A 55%,#18202B 100%);--cbg:rgba(6,9,14,.35);--pbg:#222C3A;--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1;--cbd:rgba(217,180,122,.22)}
+body.how-glow .how{--hbg:radial-gradient(70% 60% at 50% 0%,rgba(217,180,122,.22) 0%,rgba(217,180,122,.06) 45%,transparent 75%),#0A1222;--cbg:rgba(3,6,14,.4);--pbg:#0A1222;--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1;--cbd:rgba(217,180,122,.22)}
+body.how-black .how{--hbg:radial-gradient(90% 75% at 50% 0%,#0B0D12 0%,#060709 60%,#030405 100%);--cbg:rgba(255,255,255,.02);--pbg:#060709;--hink:#F3EAD8;--hsub:rgba(243,234,216,.72);--hgold:#D9B47A;--hnum:#D9B47A;--nbg:linear-gradient(180deg,rgba(217,180,122,.18),rgba(217,180,122,.07));--nbd:rgba(217,180,122,.55);--nink:#F3EAD8;--nsub:rgba(243,234,216,.75);--nnum:#D9B47A;--pbd:#D9B47A;--line:rgba(217,180,122,.55);--noise:.1;--cbd:rgba(217,180,122,.22)}
+body.how-night{--join:#0F2240}
+body.how-sea{--join:#0C2E35}
+body.how-wine{--join:#33101A}
+body.how-emerald{--join:#0F2E22}
+body.how-ink{--join:#1A1D24}
+body.how-indigo{--join:#1D1B47}
+body.how-slate{--join:#222C3A}
+body.how-glow{--join:#0A1222}
+body.how-black{--join:#060709}
+.how .body{color:var(--hsub)}
+.how .eyebrow{color:var(--hgold)}.how .eyebrow::before,.how .eyebrow::after{background:var(--hgold)}
+.how::before{content:"";position:absolute;inset:0;z-index:0;opacity:var(--noise);pointer-events:none;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 28%,#000 72%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 28%,#000 72%,transparent 100%);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .85 0 0 0 0 .7 0 0 0 0 .45 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+.how .head{text-align:center;display:grid;justify-items:center}
+.how .eyebrow::after{content:"";width:28px;height:1px;opacity:.7}
+.how h2{font:500 clamp(40px,6.4vw,84px)/1.02 var(--serif);color:var(--hink);margin:20px 0 18px;letter-spacing:.01em}
+.how .lead{max-width:36em;text-align:center;font-size:17px}
+.route{position:relative;margin:clamp(48px,6vw,80px) 0 0}
+.route svg.line{color:var(--line);position:absolute;left:16.66%;right:16.66%;top:0;width:66.68%;height:24px;overflow:visible}
+.route .pins{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px)}
+.pinwrap{display:flex;justify-content:center;height:24px;align-items:center}
+.pin{width:12px;height:12px;border-radius:50%;background:var(--pbg);border:1.5px solid var(--pbd)}
+.pin.here{background:var(--pbd);border-color:var(--pbd);box-shadow:0 0 0 0 rgba(217,180,122,.5);animation:pulse 2.8s ease-out infinite}
+.jobs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2vw,24px);margin-top:22px}
+.job{border:1px solid var(--cbd);background:var(--cbg);padding:clamp(20px,2.2vw,32px);display:flex;flex-direction:column}
+.job.now{background:var(--nbg);border-color:var(--nbd)}
+.job.now h3{color:var(--nink)}.job.now .body{color:var(--nsub)}.job.now .num{color:var(--nnum)}.job.now .where{color:var(--nsub)}
+.job .num{font:300 clamp(56px,6vw,76px)/.9 var(--serif);color:var(--hnum);font-variant-numeric:lining-nums}
+.job .rule{width:30px;height:1px;background:var(--hgold);margin:16px 0 18px}
+.job .where{font:500 11.5px/1.3 var(--display);letter-spacing:.24em;text-transform:uppercase;color:var(--hsub);opacity:.85}
+.job h3{white-space:nowrap;font:600 clamp(21px,2vw,28px)/1.15 var(--serif);color:var(--hink);margin:10px 0 12px}
+.job p{margin:0}
+/* 3. It doesn't have to be you: a quiet gallery wall under the stars, the founder's line, three plaques */
+.you .top{display:grid;grid-template-columns:1.5fr 1fr;gap:clamp(40px,5vw,80px);align-items:end;padding-top:0}
+.you .about{display:grid;gap:18px}
+.you h2{font:500 clamp(32px,3.7vw,54px)/1.12 var(--serif);color:var(--cream);margin:0;text-wrap:balance}
+.you h2 em{display:block;font-style:italic;color:var(--gold);margin-top:.15em}
+.you .lead{margin:0;font-size:17px}
+.you .lead b{color:var(--cream);font-weight:500}
+.you .lead a.ii{color:inherit;text-decoration:underline;text-decoration-color:rgba(217,180,122,.6);text-underline-offset:4px;text-decoration-thickness:1px}
+.you .lead a.ii:hover{text-decoration-color:var(--gold)}
+.plaques{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(54px,7vw,90px);text-align:left}
+.plaque{padding:6px clamp(16px,2.2vw,32px)}
+.plaque+.plaque{border-left:1px solid rgba(217,180,122,.25)}
+.plaque svg{width:34px;height:34px;fill:none;stroke:var(--gold);stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.plaque h3{white-space:nowrap;font:600 clamp(20px,1.85vw,25px)/1.2 var(--serif);color:var(--cream);margin:16px 0 10px}
+.plaque p{margin:0}
+.foot{position:relative;background:#05080f;padding:14px 22px calc(14px + env(safe-area-inset-bottom));text-align:center;
+  font:400 12.5px/1.6 var(--display);color:rgba(243,234,216,.5)}
+.foot .mark{display:block;font:600 22px var(--serif);letter-spacing:.2em;color:var(--gold);margin-bottom:8px}
+.foot a{color:rgba(243,234,216,.7)}
+.foot .legal{white-space:nowrap}
+@media (max-width:600px){.foot .legal{display:block}.foot .dot{display:none}} /* phones: Privacy and Terms together on their own line */
+.reveal{transition:opacity 1s ease,transform 1s ease}
+.rise{transition:transform 1s ease}
+.js .rise.hide{transform:translateY(22px)}
+.js .reveal.hide{opacity:0;transform:translateY(22px)}
+@media (max-width:760px){
+  .pains,.jobs{grid-template-columns:1fr}
+  .problem .split,.you .top{grid-template-columns:1fr;gap:34px}
+  .route svg.line,.route .pins{display:none}
+  .jobs{position:relative;padding-left:26px;gap:16px}
+  .jobs::before{content:"";position:absolute;left:5px;top:10px;bottom:10px;border-left:1.5px dashed var(--line)}
+  .job{position:relative}
+  .job::before{content:"";position:absolute;left:-27px;top:30px;width:12px;height:12px;border-radius:50%;background:var(--pbg);border:1.5px solid var(--pbd)}
+  .job.now::before{background:var(--pbd);box-shadow:0 0 0 0 rgba(217,180,122,.5);animation:pulse 2.8s ease-out infinite}
+  .plaques{grid-template-columns:1fr;gap:0;margin-top:8px}
+  .plaque{padding:26px 0}
+  .plaque+.plaque{border-left:0;border-top:1px solid rgba(217,180,122,.25)}
 }
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .hero-map .route-draw, .hero-map .ring { animation: none; }
-  .hero-map .route-draw { stroke-dashoffset: 900; }
-}
+@media (prefers-reduced-motion:reduce){.js .reveal.hide{opacity:1;transform:none}.pin.here,.job.now::before{animation:none}}
 </style>
 </head>
 <body>
-
-<nav id="navbar">
-  <a href="#" class="nav-logo"><img src="assets/logo-navy.png" alt="A">tlas</a>
-  <a href="#waitlist" class="nav-cta">Join the Waitlist</a>
-</nav>
-
-<!-- ── HERO ── -->
-<section id="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow" data-nosnippet>If you hate QuickBooks,</div>
-      <h1 class="hero-name">Meet Atlas,</h1>
-      <p class="hero-tagline">The map to your financial world.</p>
-      <p class="hero-sub">Travelers don't need to understand cartography to read a map. Business owners shouldn't have to understand accounting to know their finances.</p>
-      <a href="#waitlist" class="btn">Join the Waitlist</a>
-    </div>
-
-    <svg class="hero-map" viewBox="0 0 520 440" role="img" aria-label="A map with a route through three points: where you've been, where you are, and where you're going">
-      <path class="contour" d="M40 120c60-50 160-60 230-30s150 20 210-20"/>
-      <path class="contour" d="M20 170c80-45 170-40 250-5s160 25 230-15"/>
-      <path class="contour" d="M30 225c70-30 160-25 230 5s170 30 240-5"/>
-      <path class="contour" d="M15 285c90-25 180-10 255 20s160 20 235-15"/>
-      <path class="contour" d="M40 345c80-15 160 5 230 30s150 10 220-20"/>
-      <path class="contour" d="M300 70c40 10 70 40 60 75s-55 45-90 30-40-60-15-90z"/>
-      <path class="contour" d="M310 92c25 6 42 26 36 48s-34 28-56 18-24-38-8-58z"/>
-      <path class="contour" d="M95 300c35-10 65 10 65 35s-35 40-65 30-35-55 0-65z"/>
-      <path class="route" d="M80 340C150 330 170 250 245 245S330 210 360 170 410 95 455 80"/>
-      <path class="route-draw" d="M455 80C410 95 390 130 360 170S320 240 245 245 150 330 80 340"/>
-      <circle class="pin" cx="80" cy="340" r="7"/>
-      <circle class="ring" cx="245" cy="245" r="9"/>
-      <circle class="pin here" cx="245" cy="245" r="9"/>
-      <circle class="pin" cx="455" cy="80" r="7"/>
-      <text x="40" y="378">Where you've been</text>
-      <text x="268" y="273" class="big">You are here</text>
-      <text x="300" y="52">Where you're going</text>
-    </svg>
+<main class="poster" id="poster">
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div class="copy">
+  <div class="words">
+    <p class="welcome">Welcome to the new age of <em>accounting</em></p>
+    <p class="pre" data-nosnippet>If you hate QuickBooks, meet</p>
+    <h1>ATLAS</h1>
+    <p class="tag">The map to your financial world</p>
   </div>
-</section>
+  <div class="cta"><button class="btn open" type="button">Join the waitlist &rarr;</button><div class="meta">Early access &middot; Exclusive discount</div></div>
+  </div>
+  <div class="art" role="img" aria-label="Atlas reclining at ease under the stars, the globe floating above his palm, a phone in his other hand"><canvas class="spin" aria-hidden="true"></canvas></div>
 
-<!-- ── PROBLEM ── -->
-<section id="problem">
-  <div class="wrap problem-grid">
-    <div class="reveal">
-      <div class="eyebrow">The Problem</div>
-      <p class="problem-quote">Decision making without financial clarity is like steering the ship blind.</p>
+</main>
+
+<section class="sec problem" id="problem">
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div class="inner split">
+    <div class="lhs">
+    <div class="eyebrow reveal hide">The Problem</div>
+    <p class="quote reveal hide">Decision making without financial clarity is like <span class="blind">steering the ship blind.</span></p>
     </div>
-    <ul class="pains reveal">
-      <li><span class="n">01</span><div><b>You're relying on a gut feeling.</b><p>Most days you're too busy building the business to deal with the accounting, so decisions get made from survival, not strategy. By the time you get the information you need, it's too late to course correct.</p></div></li>
-      <li><span class="n">02</span><div><b>The numbers don't speak your language.</b><p>Your financial reports are full of jargon, and you still don't have a clear answer to your questions or how to move forward.</p></div></li>
-      <li><span class="n">03</span><div><b>You don't have a plan.</b><p>Your budget is out of date, so you can't tell if you're on track. Or worse, there's no budget at all.</p></div></li>
+    <ul class="pains">
+      <li class="pain reveal hide"><b>You're relying on a gut feeling.</b><p class="body">Most days you're too busy building the business to deal with the accounting, so decisions get made from survival, not strategy. By the time you get the information you need, it's too late to course correct.</p></li>
+      <li class="pain reveal hide"><b>The numbers don't speak your language.</b><p class="body">Your financial reports are full of jargon, and you still don't have a clear answer to your questions or how to move forward.</p></li>
+      <li class="pain reveal hide"><b>You don't have a plan.</b><p class="body">Your budget is out of date, so you can't tell if you're on track. Or worse, there's no budget at all.</p></li>
     </ul>
   </div>
 </section>
 
-<!-- ── THREE JOBS ── -->
-<section id="how">
-  <div class="wrap">
-    <div class="how-head reveal">
+<section class="sec how" id="how">
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div class="inner">
+    <div class="head reveal hide">
       <div class="eyebrow">How Atlas Works</div>
-      <h2 class="h2">A map has three jobs.</h2>
-      <p class="lead">Show you where you've been, where you are, and where you're going. Atlas does all three, so you can stop guessing and start navigating.</p>
+      <h2>A map has three jobs.</h2>
+      <p class="body lead">Show you where you've been, where you are, and where you're going. Atlas does all three, so you can stop guessing and start navigating.</p>
     </div>
-    <div class="jobs reveal">
-      <div class="job">
-        <div class="dot">01</div>
-        <div class="where">Where you've been</div>
-        <h3>Learn from every month</h3>
-        <p>See what worked, what it cost, and where the money went, without opening a spreadsheet.</p>
-      </div>
-      <div class="job now">
-        <div class="dot">02</div>
-        <div class="where">Where you are</div>
-        <h3>Know where you stand</h3>
-        <p>Your cash, what's coming in, and what's going out, in one clear picture whenever you need it.</p>
-      </div>
-      <div class="job">
-        <div class="dot">03</div>
-        <div class="where">Where you're going</div>
-        <h3>Plan your next move</h3>
-        <p>Try out the launch, the hire, or the expansion before you commit, and see what it does to your profit.</p>
+    <div class="route reveal hide">
+      <svg class="line" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12 H100" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 6" vector-effect="non-scaling-stroke" fill="none"/></svg>
+      <div class="pins" aria-hidden="true"><div class="pinwrap"><span class="pin"></span></div><div class="pinwrap"><span class="pin here"></span></div><div class="pinwrap"><span class="pin"></span></div></div>
+      <div class="jobs">
+        <div class="job"><div class="num">01</div><div class="rule"></div><div class="where">Where you've been</div><h3>Learn from every month</h3><p class="body">See what worked, what it cost, and where the money went, without opening a spreadsheet.</p></div>
+        <div class="job now"><div class="num">02</div><div class="rule"></div><div class="where">Where you are</div><h3>Know where you stand</h3><p class="body">Your cash, what's coming in, and what's going out, in one clear picture whenever you need it.</p></div>
+        <div class="job"><div class="num">03</div><div class="rule"></div><div class="where">Where you're going</div><h3>Plan your next move</h3><p class="body">Try out the launch, the hire, or the expansion before you commit, and see what it does to your profit.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── WHY ATLAS ── -->
-<section id="different">
-  <div class="wrap">
-    <div class="diff-head reveal">
-      <h2 class="h2">Somebody has to understand the accounting. <em>It doesn't have to be you.</em></h2>
-      <p class="lead">Atlas is built by <b>Ania Ohanesian</b>, a former <b>Deloitte senior auditor</b> who now runs a fractional CFO practice serving startups, growth-stage businesses, and public companies. That background shapes how Atlas works.</p>
+<section class="sec you" id="different">
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div class="inner">
+    <div class="top">
+    <h2 class="reveal hide">Somebody has to understand the accounting. <em>It doesn't have to be you.</em></h2>
+    <div class="about reveal hide"><div class="eyebrow">About Atlas</div><p class="body lead">Atlas was founded by <b>Ania Ohanesian</b>, a former <b>Deloitte senior auditor</b>. Today she leads <a class="ii" href="https://infiniteinsights.io" target="_blank" rel="noopener"><b>Infinite Insights</b></a>, a fractional CFO practice serving startups, growth-stage businesses, and public companies.</p></div>
     </div>
-    <div class="diff-grid reveal">
-      <div class="diff-card">
-        <svg viewBox="0 0 32 32"><path d="M6 26V12l10-6 10 6v14"/><path d="M4 26h24"/><path d="M11 26v-9M16 26v-9M21 26v-9"/></svg>
-        <h3>Numbers you can trust</h3>
-        <p>Built by a former auditor, so the accounting behind the scenes is done right.</p>
-      </div>
-      <div class="diff-card">
-        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"/><path d="M11 16.5l3.5 3.5L21.5 13"/></svg>
-        <h3>Answers in plain English</h3>
-        <p>No jargon and no decoding. Just what your numbers mean for the business and what deserves your attention.</p>
-      </div>
-      <div class="diff-card">
-        <svg viewBox="0 0 32 32"><circle cx="12" cy="11" r="4"/><circle cx="22" cy="13" r="3"/><path d="M4 26c0-4.5 3.6-8 8-8s8 3.5 8 8"/><path d="M20 19.5c3.6 0 7 2.6 7 6.5"/></svg>
-        <h3>Someone real in your corner</h3>
-        <p>When the decision is a big one, talk it through live with your strategic financial partner who knows your numbers.</p>
-      </div>
+    <div class="plaques reveal hide">
+      <div class="plaque"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 26V12l10-6 10 6v14"/><path d="M4 26h24"/><path d="M11 26v-9M16 26v-9M21 26v-9"/></svg><h3>Numbers you can trust</h3><p class="body">Built by a former auditor, so the accounting behind the scenes is done right.</p></div>
+      <div class="plaque"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11"/><path d="M11 16.5l3.5 3.5L21.5 13"/></svg><h3>Answers in plain English</h3><p class="body">No jargon and no decoding. Just what your numbers mean for the business and what deserves your attention.</p></div>
+      <div class="plaque"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="12" cy="11" r="4"/><circle cx="22" cy="13" r="3"/><path d="M4 26c0-4.5 3.6-8 8-8s8 3.5 8 8"/><path d="M20 19.5c3.6 0 7 2.6 7 6.5"/></svg><h3>Someone real in your corner</h3><p class="body">When the decision is a big one, talk it through live with your strategic financial partner who knows your numbers.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ── WAITLIST ── -->
-<section id="waitlist">
-  <div class="wrap reveal">
-    <div class="eyebrow">Early Access</div>
-    <h2 class="h2">Know your numbers.<br><em>Make better decisions.</em></h2>
-    <p class="lead">Join the waitlist for updates on our launch, first access to Atlas, and an exclusive founder discount.</p>
-    <form class="wl-form" id="wlForm">
-      <input type="email" id="wlEmail" placeholder="you@company.com" required aria-label="Your email">
-      <button type="submit" class="btn">Join the Waitlist</button>
-    </form>
-    <div class="wl-success" id="wlSuccess">You're on the list. We'll be in touch before launch.<button type="button" class="wl-again" id="wlAgain"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg> Add another person</button></div>
-    <p class="wl-consent">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="privacy.html">Privacy Policy</a>.</p>
-    <p class="wl-call">Need help today? <a href="https://calendly.com/infiniteinsightscfo/30min" target="_blank" rel="noopener">Book a free call</a></p>
-  </div>
-</section>
+<footer class="foot">&copy; 2026 Atlas by Infinite Insights. All rights reserved. <span class="legal"><span class="dot">&middot; </span><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span></footer>
 
-<footer>
-  <span class="footer-logo"><img src="assets/logo-white.png" alt="A">tlas</span>
-  <span class="footer-copy">© 2026 Atlas by Infinite Insights. All rights reserved. · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></span>
-</footer>
+<div class="sheet" id="sheet" hidden>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
+    <button class="close" type="button" id="wlClose" aria-label="Close">&times;</button>
+    <div id="wlAsk">
+      <h2 id="wlTitle">Join the new age</h2>
+      <p>For launch updates, first access to Atlas, and an exclusive discount.</p>
+      <form class="row" id="wlForm">
+        <input type="email" id="wlEmail" placeholder="you@company.com" required aria-label="Your email">
+        <button type="submit" id="wlSubmit">Join</button>
+      </form>
+      <p class="err" id="wlErr" hidden>That didn't go through. Please try again.</p>
+      <p class="consent">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="privacy.html">Privacy Policy</a>.</p>
+    </div>
+    <div id="wlDone" class="done" hidden>
+      <h2>You're on the list</h2>
+      <p>We'll be in touch before launch.</p>
+      <button class="again" type="button" id="wlAgain">Add another person</button>
+    </div>
+  </div>
+</div>
 
 <script>
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }), { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30));
-
-// Waitlist form: each signup goes to the Atlas Waitlist sheet.
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzWii84o6K5VI2Oe6Rv8wcwD-afCyV4fuwhvfgK6fj6oSZfe4l6pgTxsUWEF6-Kd2Zp-w/exec';
-document.getElementById('wlForm').addEventListener('submit', e => {
+const $ = id => document.getElementById(id);
+const openSheet = () => { $('sheet').hidden = false; $('wlEmail').focus(); };
+// keep the pop-up's bottom edge on the keyboard: size the overlay to the part of the screen the keyboard leaves visible
+(function(){
+  var vv=window.visualViewport, sh=$('sheet'); if(!vv) return;
+  function fit(){ if(sh.hidden) return; sh.style.top=vv.offsetTop+'px'; sh.style.height=vv.height+'px'; sh.style.bottom='auto'; }
+  vv.addEventListener('resize',fit); vv.addEventListener('scroll',fit);
+  new MutationObserver(fit).observe(sh,{attributes:true,attributeFilter:['hidden']});
+})();
+document.querySelectorAll('.open').forEach(b => b.addEventListener('click', openSheet));
+$('wlClose').addEventListener('click', () => { $('sheet').hidden = true; });
+$('sheet').addEventListener('click', e => { if (e.target.id === 'sheet') $('sheet').hidden = true; });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') $('sheet').hidden = true; });
+$('wlForm').addEventListener('submit', e => {
   e.preventDefault();
-  const email = document.getElementById('wlEmail').value.trim();
-  if (!email) return;
-  const done = () => { document.getElementById('wlForm').style.display = 'none'; document.getElementById('wlSuccess').style.display = 'block'; };
-  if (!ENDPOINT) { done(); return; }
+  const email = $('wlEmail').value.trim(); if (!email) return;
+  $('wlErr').hidden = true; $('wlSubmit').disabled = true;
   fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'Agreed to receive launch updates from Atlas.' }) }).then(done).catch(done);
+    body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) })
+    .then(() => { $('wlAsk').hidden = true; $('wlDone').hidden = false; })
+    .catch(() => { $('wlErr').hidden = false; })
+    .finally(() => { $('wlSubmit').disabled = false; });
 });
-// Reset for the next person (the page is also used as a sign-up form from a phone home screen).
-document.getElementById('wlAgain').addEventListener('click', () => {
-  const form = document.getElementById('wlForm');
-  form.reset(); form.style.display = ''; document.getElementById('wlSuccess').style.display = 'none';
-  document.getElementById('wlEmail').focus();
-});
+$('wlAgain').addEventListener('click', () => { $('wlForm').reset(); $('wlDone').hidden = true; $('wlAsk').hidden = false; $('wlEmail').focus(); });
+
+(function(){
+  var sec=$('poster'), c=sec.querySelector('.stars'), x=c.getContext('2d'), art=sec.querySelector('.art');
+  function draw(){
+    var r=window.devicePixelRatio||1, w=sec.clientWidth, h=sec.clientHeight;
+    c.width=w*r; c.height=h*r; x.setTransform(r,0,0,r,0,0); x.clearRect(0,0,w,h);
+    var s=7; function rnd(){ s=(s*16807)%2147483647; return s/2147483647; }
+    var top=art.getBoundingClientRect().top-sec.getBoundingClientRect().top+art.clientHeight*0.1;
+    var n=Math.round(w*h/260);
+    for(var i=0;i<n;i++){
+      var px=rnd()*w, py=rnd()*h;
+      var t=Math.max(0,Math.min(1,py/Math.max(top,1))), keep=0.16+0.84*Math.pow(t,1.6);
+      if(py>top) keep=Math.max(0,1-(py-top)/(art.clientHeight*0.15));
+      if(w>h){ t=0.6; keep=0.45; }
+
+      if(rnd()>keep) continue;
+      var big=rnd()<.05, rad=big?(.8+rnd()*.7):(.3+rnd()*.45), a=((big?.55:.22)+rnd()*.35)*(0.55+0.45*t), warm=rnd()<.35;
+      x.fillStyle=warm?'rgba(232,200,140,'+a+')':'rgba(220,226,240,'+a+')';
+      x.beginPath(); x.arc(px,py,rad,0,6.283); x.fill();
+    }
+  }
+  draw(); var tm; addEventListener('resize',function(){clearTimeout(tm);tm=setTimeout(draw,120);});
+  if(window.ResizeObserver) new ResizeObserver(function(){clearTimeout(tm);tm=setTimeout(draw,60);}).observe(sec);
+})();
 </script>
-</body></html>
+<script>
+(function(){
+  document.documentElement.classList.add('js'); document.body.classList.add('how-night');
+  // sections: words rise in as you scroll
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.remove('hide'); io.unobserve(e.target); } }); },{threshold:.25});
+  document.querySelectorAll('.reveal.hide,.rise.hide').forEach(function(el){ io.observe(el); });
+  // the same drawn stars as the first screen, fainter
+  function stars(sec){ var c=sec.querySelector('canvas.stars'); if(!c) return; var x=c.getContext('2d');
+    function draw(){ var r=devicePixelRatio||1,w=sec.clientWidth,h=sec.clientHeight; c.width=w*r;c.height=h*r;x.setTransform(r,0,0,r,0,0);x.clearRect(0,0,w,h);
+      var s=11; function rnd(){ s=(s*16807)%2147483647; return s/2147483647; } var n=Math.round(w*h/700);
+      for(var i=0;i<n;i++){ var px=rnd()*w,py=rnd()*h,big=rnd()<.04,rad=big?(.7+rnd()*.6):(.3+rnd()*.4),a=((big?.45:.16)+rnd()*.3)*0.8,warm=rnd()<.3;
+        x.fillStyle=warm?'rgba(232,200,140,'+a+')':'rgba(220,226,240,'+a+')'; x.beginPath(); x.arc(px,py,rad,0,6.283); x.fill(); } }
+    draw(); if(window.ResizeObserver) new ResizeObserver(draw).observe(sec); }
+  document.querySelectorAll('.sec').forEach(stars);
+})();
+</script>
+<script>
+/* spinning globe: the painting's globe is at (1180,555) radius 186 in the 2528x1696 picture. The surface is an unrolled world map in the
+   painting's colours (spin/globe-map.webp); the light and shade are the painting's own (spin/globe-light.png, the globe blurred). */
+(function(){
+  var art=document.querySelector('.art'), cv=art&&art.querySelector('.spin');
+  if(!cv||!cv.getContext||matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var IW=2528,IH=1696,CX=1180,CY=555,R=186,LX=994,LY=369,LS=372,ROLL=-12*Math.PI/180,PITCH=16*Math.PI/180,
+      TURN=26000,START=-70*Math.PI/180, g=cv.getContext('2d'), map, light, MW, MH, N, img, base, row, lf, al, ok=false, vis=true, t0=performance.now();
+  function load(src){return new Promise(function(res,rej){var i=new Image();i.onload=function(){res(i)};i.onerror=rej;i.src=src})}
+  function pixels(i){var c=document.createElement('canvas');c.width=i.naturalWidth;c.height=i.naturalHeight;var x=c.getContext('2d');x.drawImage(i,0,0);return x.getImageData(0,0,c.width,c.height)}
+  function pct(v,free){return v.indexOf('%')>0?parseFloat(v)/100*free:parseFloat(v)}
+  function place(){
+    var w=art.clientWidth,h=art.clientHeight,cs=getComputedStyle(art),sz=cs.backgroundSize,s;
+    if(sz==='cover') s=Math.max(w/IW,h/IH); else if(sz==='contain') s=Math.min(w/IW,h/IH);
+    else {var p=sz.split(' ');s=p[0]==='auto'?pct(p[1],h)/IH:pct(p[0],w)/IW}
+    var bp=cs.backgroundPosition.split(' '),ox=pct(bp[0],w-IW*s),oy=pct(bp[1]||'50%',h-IH*s),d=2*R*s;
+    cv.style.left=(ox+(CX-R)*s)+'px';cv.style.top=(oy+(CY-R)*s)+'px';cv.style.width=d+'px';cv.style.height=d+'px';
+    var n=Math.max(16,Math.round(d*Math.min(devicePixelRatio||1,2)));
+    if(n!==N){N=n;cv.width=cv.height=N;prep()}
+  }
+  function prep(){
+    img=g.createImageData(N,N);base=new Float32Array(N*N);row=new Int32Array(N*N);lf=new Float32Array(N*N);al=new Uint8ClampedArray(N*N);
+    var cr=Math.cos(ROLL),sr=Math.sin(ROLL),cp=Math.cos(PITCH),sp=Math.sin(PITCH),L=light.data,LW=light.width;
+    for(var j=0;j<N;j++)for(var i=0;i<N;i++){
+      var k=j*N+i,nx=(i+.5)/N*2-1,ny=1-(j+.5)/N*2,rr=Math.sqrt(nx*nx+ny*ny);
+      if(rr>=1){al[k]=0;continue}
+      var z=Math.sqrt(1-rr*rr),x=nx*cr+ny*sr,y=-nx*sr+ny*cr,y2=y*cp+z*sp,z2=-y*sp+z*cp,
+          lat=Math.asin(Math.max(-1,Math.min(1,y2))),lon=Math.atan2(x,z2);
+      base[k]=(lon+Math.PI)/(2*Math.PI)*MW;row[k]=Math.min(MH-1,Math.floor((Math.PI/2-lat)/Math.PI*MH))*MW;
+      var lx=Math.min(LW-1,Math.floor((i+.5)/N*LS)),ly=Math.min(light.height-1,Math.floor((j+.5)/N*LS)),q=(ly*LW+lx)*4;
+      lf[k]=Math.max(.2,Math.min(1.42,Math.pow((.3*L[q]+.59*L[q+1]+.11*L[q+2])/92,1.25)));
+      al[k]=Math.round(255*Math.min(1,(1-rr)/.035));
+    }
+  }
+  function draw(now){
+    var off=(START+(now-t0)/TURN*2*Math.PI)/(2*Math.PI)*MW,D=img.data,M=map.data;
+    for(var k=0,n=N*N;k<n;k++){
+      var a=al[k],o=k*4;if(!a){D[o+3]=0;continue}
+      var u=(base[k]+off)%MW;if(u<0)u+=MW;var q=(row[k]+(u|0))*4,f=lf[k];
+      D[o]=M[q]*f;D[o+1]=M[q+1]*f;D[o+2]=M[q+2]*f;D[o+3]=a;
+    }
+    g.putImageData(img,0,0);
+  }
+  var last=0;
+  function tick(now){ if(vis&&now-last>=33){last=now;draw(now)} requestAnimationFrame(tick) }
+  Promise.all([load('spin/globe-map.webp'),load('spin/globe-light.png')]).then(function(r){
+    map=pixels(r[0]);light=pixels(r[1]);MW=map.width;MH=map.height;place();draw(performance.now());
+    requestAnimationFrame(function(){cv.classList.add('on')});requestAnimationFrame(tick);
+    addEventListener('resize',place);if(window.ResizeObserver)new ResizeObserver(place).observe(art);
+    if(window.IntersectionObserver)new IntersectionObserver(function(e){vis=e[0].isIntersecting}).observe(art);
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
