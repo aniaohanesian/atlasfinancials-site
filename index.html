@@ -44,8 +44,8 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 @media (max-aspect-ratio:1/1){
   /* like the computer: the page is a little taller than the screen, the words and button stay frozen and the painting
      slides up under them as you scroll */
-  .poster{--ah:clamp(360px,66svh,720px);display:block;min-height:0;height:100svh} /* her recording 15 Oct: nothing freezes on phones; words, painting and button scroll as one */
-  .copy{display:block;position:relative;height:100svh;z-index:3}
+  .poster{--ah:clamp(360px,66svh,720px);--extra:14svh;display:block;min-height:0;height:calc(100svh + var(--extra))}
+  .copy{display:block;position:sticky;top:0;height:100svh;z-index:3}
   .words{position:absolute;left:0;right:0;top:0;height:calc(100svh - var(--ah) * 0.85);align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
   .art{position:absolute;left:0;right:0;top:calc(100svh - var(--ah));height:var(--ah);margin:0}
   .welcome{font-size:calc((100vw - 46px) / 15.2)}
