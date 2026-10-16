@@ -255,6 +255,12 @@ body.how-black{--join:#060709}
   .job{position:relative}
   .job::before{content:"";position:absolute;left:-27px;top:30px;width:12px;height:12px;border-radius:50%;background:var(--pbg);border:1.5px solid var(--pbd)}
   .job.now::before{background:var(--pbd);box-shadow:0 0 0 0 rgba(217,180,122,.5);animation:pulse 2.8s ease-out infinite}
+  /* her ask 16 Oct (IMG_0535/0536): on phones the label sits to the right of the big number, larger, one line */
+  .job{display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-items:center}
+  .job .num{grid-column:1;grid-row:1}
+  .job .where{grid-column:2;grid-row:1;font-size:min(13px,3.25vw);letter-spacing:.12em;line-height:1.35;opacity:1;white-space:nowrap}
+  .job .rule{grid-column:1;grid-row:2}
+  .job > :not(.num):not(.where):not(.rule){grid-column:1 / -1}
   .plaques{grid-template-columns:1fr;gap:0;margin-top:8px}
   .plaque{padding:26px 0}
   .plaque+.plaque{border-left:0;border-top:1px solid rgba(217,180,122,.25)}
@@ -311,15 +317,14 @@ body.how-black{--join:#060709}
     <div class="head reveal hide">
       <div class="eyebrow">How Atlas Works</div>
       <h2>A map has three jobs.</h2>
-      <p class="body lead">Show you where you've been, where you are, and where you're going. Atlas does all three, so you can stop guessing and start navigating.</p>
     </div>
     <div class="route reveal hide">
       <svg class="line" viewBox="0 0 100 24" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12 H100" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 6" vector-effect="non-scaling-stroke" fill="none"/></svg>
       <div class="pins" aria-hidden="true"><div class="pinwrap"><span class="pin"></span></div><div class="pinwrap"><span class="pin here"></span></div><div class="pinwrap"><span class="pin"></span></div></div>
       <div class="jobs">
-        <div class="job"><div class="num">01</div><div class="rule"></div><div class="where">Where you've been</div><h3>Learn from every month</h3><p class="body">See what worked, what it cost, and where the money went, without opening a spreadsheet.</p></div>
-        <div class="job now"><div class="num">02</div><div class="rule"></div><div class="where">Where you are</div><h3>Know where you stand</h3><p class="body">Your cash, what's coming in, and what's going out, in one clear picture whenever you need it.</p></div>
-        <div class="job"><div class="num">03</div><div class="rule"></div><div class="where">Where you're going</div><h3>Plan your next move</h3><p class="body">Try out the launch, the hire, or the expansion before you commit, and see what it does to your profit.</p></div>
+        <div class="job"><div class="num">01</div><div class="rule"></div><div class="where">Show where you've been</div><h3>Learn from every month</h3><p class="body">See what worked, what it cost, and where the money went, without opening a spreadsheet.</p></div>
+        <div class="job now"><div class="num">02</div><div class="rule"></div><div class="where">Show where you are</div><h3>Know where you stand</h3><p class="body">Your cash, what's coming in, and what's going out, in one clear picture whenever you need it.</p></div>
+        <div class="job"><div class="num">03</div><div class="rule"></div><div class="where">Show where you're going</div><h3>Plan your next move</h3><p class="body">Try out the launch, the hire, or the expansion before you commit, and see what it does to your profit.</p></div>
       </div>
     </div>
   </div>
