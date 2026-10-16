@@ -20,7 +20,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{background:#070c16}
 body{font-family:var(--serif);color:var(--cream);background:#070c16}
-.poster{position:relative;display:flex;flex-direction:column;min-height:100svh;overflow:clip;
+.poster{position:relative;z-index:3;display:flex;flex-direction:column;min-height:100svh;overflow-x:clip;overflow-y:visible;
   background:#070c16}
 .copy{display:contents}
 .stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
@@ -40,6 +40,27 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 .btn{font:600 12.5px var(--display);letter-spacing:.18em;text-transform:uppercase;border:0;border-radius:2px;padding:17px 28px;cursor:pointer;background:var(--gold);color:var(--ink)}
 .btn:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
 .meta{font:italic 400 17px var(--serif);color:rgba(243,234,216,.7);margin-top:10px}
+/* her 16 Oct recording + Lucine: the sign-up sits right on the page (one less tap, no pop-up, the page never moves); slim and dark so the painting stays the star */
+.join{display:flex;width:min(340px,calc(100vw - 44px));margin:0 auto;border:1px solid rgba(217,180,122,.55);border-radius:2px;background:rgba(7,12,22,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.join:focus-within{border-color:var(--gold)}
+.join input{flex:1 1 auto;min-width:0;border:0;background:transparent;color:var(--cream);font:italic 400 18px var(--serif);padding:0 14px;outline:0}
+.join input::placeholder{color:rgba(243,234,216,.55)}
+.join .btn{flex:none;padding:15px 20px;border-radius:0}
+.fine{font:400 11px/1.5 var(--display);color:rgba(243,234,216,.55);width:min(340px,calc(100vw - 44px));margin:8px auto 0;max-height:0;opacity:0;overflow:hidden;transition:opacity .25s ease,max-height .25s ease}
+.fine a{color:rgba(243,234,216,.75)}
+.join input:-webkit-autofill{animation:hfAutofill .01s}
+@keyframes hfAutofill{from{opacity:1}to{opacity:1}}
+/* her ask 16 Oct: the box never moves when tapped; the consent line is laid over the benefits line and opens downward */
+.below{position:relative}
+.below .fine{position:absolute;left:0;right:0;top:0;margin-top:0}
+.cta.typing .fine{max-height:60px;opacity:1}
+.cta.typing .meta{visibility:hidden}
+/* her pop-up words kept on the page (16 Oct IMG_0527: "we lose this?") */
+.jhead{font:600 12.5px var(--display);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 10px;text-shadow:0 1px 10px rgba(7,12,22,.95),0 0 3px rgba(7,12,22,.9)}
+#hfAsk .meta{font-size:min(17px,calc((100vw - 44px) / 19));line-height:1.35;text-wrap:balance;width:min(340px,calc(100vw - 44px));margin-left:auto;margin-right:auto}
+.thanks{font:italic 400 22px var(--serif);color:var(--gold)}
+.again2{font:500 12px var(--display);letter-spacing:.16em;text-transform:uppercase;background:none;border:0;color:rgba(243,234,216,.7);text-decoration:underline;text-underline-offset:4px;margin-top:8px;cursor:pointer;padding:6px}
+.jerr{font:400 13px var(--display);color:#E8A08F;margin:8px 0 0}
 /* upright phone: one tight group of words (like the sideways view), centred in the sky above the globe; button close to the bottom */
 @media (max-aspect-ratio:1/1){
   /* like the computer: the page is a little taller than the screen, the words and button stay frozen and the painting
@@ -58,7 +79,7 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 @media (min-aspect-ratio:1/1){
   /* wide screens: painting on the right fading into the dark on its left (Frank style), a little taller than the screen so it
      scrolls up and down a little; the words and button stay frozen on the left */
-  .poster{display:block;height:118svh;min-height:0;overflow:clip}
+  .poster{display:block;height:118svh;min-height:0;overflow-x:clip;overflow-y:visible}
   .art{position:absolute;right:0;top:0;bottom:0;width:64%;height:auto;margin:0;background-size:cover;background-position:78% 30%;
     -webkit-mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.55) 18%,#000 40%);mask-image:linear-gradient(90deg,transparent 0,rgba(0,0,0,.55) 18%,#000 40%)}
   .art::after{height:18%}
@@ -70,6 +91,11 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
   .welcome{font-size:min(calc((44vw - max(22px,5vw) - 8px) / 15.2), 7svh)}
   .tag{font-size:min(2vw,4.6svh)}
   .cta{position:static;text-align:left;padding-top:min(3vw,5svh)}
+  .join,.fine{margin-left:0;width:min(400px,36vw)}
+  #hfAsk .meta{margin-left:0;width:auto;white-space:nowrap}
+  .jhead{font-size:max(11px,min(1vw,2.3svh))}
+  #hfAsk .meta{font-size:max(14px,min(1.32vw,3.1svh))}
+  .join input{font-size:max(16px,min(1.4vw,3.2svh))}
   .btn{font-size:max(11px,min(1vw,2.3svh));padding:max(11px,min(1.2vw,2.6svh)) max(22px,min(2.2vw,4.6svh))}
   .meta{font-size:max(14px,min(1.32vw,3.1svh));margin-top:min(.8vw,1.6svh)}
 }
@@ -238,7 +264,19 @@ body.how-black{--join:#060709}
     <h1>ATLAS</h1>
     <p class="tag">The map to your financial world</p>
   </div>
-  <div class="cta"><button class="btn open" type="button">Join the waitlist &rarr;</button><div class="meta">Early access &middot; Exclusive discount</div></div>
+  <div class="cta" id="cta">
+    <div id="hfAsk">
+      <div class="jhead">Join the waitlist</div>
+      <form class="join" id="hfForm" novalidate>
+        <input type="email" id="hfEmail" name="email" placeholder="Your email" autocomplete="email" inputmode="email" enterkeyhint="go" required aria-label="Your email">
+        <button class="btn" type="submit" id="hfSubmit">Join</button>
+      </form>
+      <p class="jerr" id="hfErr" hidden>That didn't go through. Please try again.</p>
+      <div class="below"><div class="meta">Early access &middot; Exclusive discounts &middot; Launch updates</div>
+      <p class="fine">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="https://atlasfinancials.io/privacy.html">Privacy Policy</a>.</p></div>
+    </div>
+    <div id="hfDone" hidden><div class="thanks">You're on the list</div><div class="meta">We'll be in touch before launch.</div><button class="again2" type="button" id="hfAgain">Add another person</button></div>
+  </div>
   </div>
   <div class="art" role="img" aria-label="Atlas reclining at ease under the stars, the globe floating above his palm, a phone in his other hand"><canvas class="spin" aria-hidden="true"></canvas></div>
 
@@ -296,53 +334,37 @@ body.how-black{--join:#060709}
 
 <footer class="foot">&copy; 2026 Atlas by Infinite Insights. All rights reserved. <span class="legal"><span class="dot">&middot; </span><a href="privacy.html">Privacy</a> &middot; <a href="terms.html">Terms</a></span></footer>
 
-<div class="sheet" id="sheet" hidden>
-  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="wlTitle">
-    <button class="close" type="button" id="wlClose" aria-label="Close">&times;</button>
-    <div id="wlAsk">
-      <h2 id="wlTitle">Join the new age</h2>
-      <p>For launch updates, first access to Atlas, and an exclusive discount.</p>
-      <form class="row" id="wlForm">
-        <input type="email" id="wlEmail" placeholder="you@company.com" required aria-label="Your email">
-        <button type="submit" id="wlSubmit">Join</button>
-      </form>
-      <p class="err" id="wlErr" hidden>That didn't go through. Please try again.</p>
-      <p class="consent">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="privacy.html">Privacy Policy</a>.</p>
-    </div>
-    <div id="wlDone" class="done" hidden>
-      <h2>You're on the list</h2>
-      <p>We'll be in touch before launch.</p>
-      <button class="again" type="button" id="wlAgain">Add another person</button>
-    </div>
-  </div>
-</div>
-
 <script>
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzWii84o6K5VI2Oe6Rv8wcwD-afCyV4fuwhvfgK6fj6oSZfe4l6pgTxsUWEF6-Kd2Zp-w/exec';
 const $ = id => document.getElementById(id);
-const openSheet = () => { $('sheet').hidden = false; $('wlEmail').focus(); };
-// keep the pop-up's bottom edge on the keyboard: size the overlay to the part of the screen the keyboard leaves visible
-(function(){
-  var vv=window.visualViewport, sh=$('sheet'); if(!vv) return;
-  function fit(){ if(sh.hidden) return; sh.style.top=vv.offsetTop+'px'; sh.style.height=vv.height+'px'; sh.style.bottom='auto'; }
-  vv.addEventListener('resize',fit); vv.addEventListener('scroll',fit);
-  new MutationObserver(fit).observe(sh,{attributes:true,attributeFilter:['hidden']});
-})();
-document.querySelectorAll('.open').forEach(b => b.addEventListener('click', openSheet));
-$('wlClose').addEventListener('click', () => { $('sheet').hidden = true; });
-$('sheet').addEventListener('click', e => { if (e.target.id === 'sheet') $('sheet').hidden = true; });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') $('sheet').hidden = true; });
-$('wlForm').addEventListener('submit', e => {
+// her rule 16 Oct: pressing anything never moves you on the page. Opening the keyboard lets the phone slide the page up;
+// when the keyboard closes we put the page back exactly where she was.
+let keepY = null;
+// her yes 16 Oct: the consent line appears on the first tap OR as soon as the box has anything in it (autofill), and it hides again if they leave the box empty
+let seen = false;
+const showFine = () => { seen = true; $('cta').classList.add('typing'); };
+$('hfEmail').addEventListener('focus', () => { if (keepY === null) keepY = window.scrollY; showFine(); });
+$('hfEmail').addEventListener('input', showFine);
+$('hfEmail').addEventListener('animationstart', e => { if (e.animationName === 'hfAutofill') showFine(); });
+setTimeout(() => { if ($('hfEmail').value) showFine(); }, 800);
+$('hfEmail').addEventListener('blur', () => { setTimeout(() => {
+  if (document.activeElement === $('hfEmail')) return;
+  if (!$('hfEmail').value) { seen = false; $('cta').classList.remove('typing'); }
+  if (keepY !== null) { window.scrollTo({ top: keepY, behavior: 'instant' }); keepY = null; }
+}, 60); });
+$('hfForm').addEventListener('submit', e => {
   e.preventDefault();
-  const email = $('wlEmail').value.trim(); if (!email) return;
-  $('wlErr').hidden = true; $('wlSubmit').disabled = true;
+  if (!seen) { showFine(); return; } // never let anyone join before the consent line has shown
+  const email = $('hfEmail').value.trim();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $('hfEmail').focus(); $('hfForm').animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:240}); return; }
+  $('hfErr').hidden = true; $('hfSubmit').disabled = true;
   fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) })
-    .then(() => { $('wlAsk').hidden = true; $('wlDone').hidden = false; })
-    .catch(() => { $('wlErr').hidden = false; })
-    .finally(() => { $('wlSubmit').disabled = false; });
+    .then(() => { $('hfEmail').blur(); $('hfAsk').hidden = true; $('hfDone').hidden = false; })
+    .catch(() => { $('hfErr').hidden = false; })
+    .finally(() => { $('hfSubmit').disabled = false; });
 });
-$('wlAgain').addEventListener('click', () => { $('wlForm').reset(); $('wlDone').hidden = true; $('wlAsk').hidden = false; $('wlEmail').focus(); });
+$('hfAgain').addEventListener('click', () => { $('hfForm').reset(); $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfEmail').focus(); });
 
 (function(){
   var sec=$('poster'), c=sec.querySelector('.stars'), x=c.getContext('2d'), art=sec.querySelector('.art');
