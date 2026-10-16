@@ -89,13 +89,6 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 /* squarer computer screens (iPad sideways, 1024x768, 1440x900): slide the painting right so the globe clears the words */
 @media (min-aspect-ratio:1/1) and (max-aspect-ratio:3/2){.art{background-position:55% 30%}}
 @media (min-aspect-ratio:3/2) and (max-aspect-ratio:17/10){.art{background-position:70% 30%}}
-/* her ask 15 Oct ("the behind image isn't moving anymore"): on phones the painting drifts up slower than the words, so it moves
-   behind them without anything freezing; a fade at the screen's bottom edge hides where the drifting painting is cut */
-@media (max-aspect-ratio:1/1){
-  .poster::after{content:"";position:absolute;z-index:2;left:0;right:0;bottom:0;height:24%;pointer-events:none;
-    background:linear-gradient(180deg,rgba(7,12,22,0),#070c16 80%);opacity:var(--pf,0)}
-  .art{will-change:transform}
-}
 /* waitlist pop-up: the earlier light version (cream panel, navy and blue text), her pick 14 Oct */
 .sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.6);padding:16px}
 /* phones: the pop-up is a card that rises from the bottom and sits flat on top of the keyboard (as in the artifact version) */
@@ -456,20 +449,6 @@ $('wlAgain').addEventListener('click', () => { $('wlForm').reset(); $('wlDone').
     t.addEventListener('keydown',function(e){ if(mq.matches&&(e.key==='Enter'||e.key===' ')){e.preventDefault();set(!it.classList.contains('open'))} });
     if(mq.addEventListener) mq.addEventListener('change',arm); arm();
   });
-})();
-</script>
-<script>
-/* phones: the painting drifts at 70% of the scroll speed */
-(function(){
-  var mq=matchMedia('(max-aspect-ratio:1/1)'),rm=matchMedia('(prefers-reduced-motion: reduce)'),
-      poster=document.getElementById('poster'),art=poster&&poster.querySelector('.art'),busy=false;
-  if(!art) return;
-  function go(){ busy=false;
-    if(!mq.matches||rm.matches){art.style.transform='';poster.style.removeProperty('--pf');return}
-    var y=Math.max(0,Math.min(scrollY,innerHeight*1.2)),s=y*0.3;
-    art.style.transform='translate3d(0,'+s.toFixed(1)+'px,0)';poster.style.setProperty('--pf',Math.min(1,s/30).toFixed(2)); }
-  addEventListener('scroll',function(){ if(!busy){busy=true;requestAnimationFrame(go)} },{passive:true});
-  addEventListener('resize',go); go();
 })();
 </script>
 </body>
