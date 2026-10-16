@@ -49,6 +49,9 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 .fine{font:400 11px/1.5 var(--display);color:rgba(243,234,216,.55);width:min(340px,calc(100vw - 44px));margin:8px auto 0;max-height:0;opacity:0;overflow:hidden;transition:opacity .25s ease,max-height .25s ease}
 .fine a{color:rgba(243,234,216,.75)}
 .join input:-webkit-autofill{animation:hfAutofill .01s}
+/* her IMG_0530 16 Oct: Safari paints autofilled emails bright yellow; keep the box's own dark tone with a faint warm hint */
+.join input:-webkit-autofill,.join input:-webkit-autofill:hover,.join input:-webkit-autofill:focus{-webkit-box-shadow:0 0 0 60px rgba(30,26,22,.92) inset;box-shadow:0 0 0 60px rgba(30,26,22,.92) inset;-webkit-text-fill-color:var(--cream);caret-color:var(--cream);transition:background-color 9999s ease-out 0s}
+.join input:autofill{background:transparent}
 @keyframes hfAutofill{from{opacity:1}to{opacity:1}}
 /* her ask 16 Oct: the box never moves when tapped; the consent line is laid over the benefits line and opens downward */
 .below{position:relative}
