@@ -58,6 +58,11 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 .below .fine{position:absolute;left:0;right:0;top:0;margin-top:0}
 .cta.typing .fine{max-height:60px;opacity:1}
 .cta.typing .meta{visibility:hidden}
+/* her ask 16 Oct: a mistyped email gets a gentle line in the page's own italic, in the same slot, so nothing moves */
+.below .oops{position:absolute;left:0;right:0;top:0;color:#E9C79B;visibility:visible!important;z-index:1;opacity:0;transition:opacity .35s ease}
+.below .oops.on{opacity:1}
+.cta.oops-on .fine{opacity:0!important}
+.cta.oops-on .meta:not(.oops){visibility:hidden}
 /* her pop-up words kept on the page (16 Oct IMG_0527: "we lose this?") */
 .jhead{font:600 12.5px var(--display);letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin:0 0 10px;text-shadow:0 1px 10px rgba(7,12,22,.95),0 0 3px rgba(7,12,22,.9)}
 #hfAsk .meta{font-size:min(17px,calc((100vw - 44px) / 19));line-height:1.35;text-wrap:balance;width:min(340px,calc(100vw - 44px));margin-left:auto;margin-right:auto}
@@ -275,7 +280,7 @@ body.how-black{--join:#060709}
         <button class="btn" type="submit" id="hfSubmit">Join</button>
       </form>
       <p class="jerr" id="hfErr" hidden>That didn't go through. Please try again.</p>
-      <div class="below"><div class="meta">Early access &middot; Exclusive discounts &middot; Launch updates</div>
+      <div class="below"><div class="meta oops" id="hfOops" role="alert" hidden>Check your email address</div><div class="meta">Early access &middot; Exclusive discounts &middot; Launch updates</div>
       <p class="fine">By signing up you agree to receive launch updates from Atlas. We won't share your email, and you can unsubscribe any time. See our <a href="https://atlasfinancials.io/privacy.html">Privacy Policy</a>.</p></div>
     </div>
     <div id="hfDone" hidden><div class="thanks">You're on the list</div><div class="meta">We'll be in touch before launch.</div><button class="again2" type="button" id="hfAgain">Add another person</button></div>
@@ -347,19 +352,27 @@ let keepY = null;
 let seen = false;
 const showFine = () => { seen = true; $('cta').classList.add('typing'); };
 $('hfEmail').addEventListener('focus', () => { if (keepY === null) keepY = window.scrollY; showFine(); });
-$('hfEmail').addEventListener('input', showFine);
+// her ask 16 Oct: "Check your email address" is an alert: it shows for a couple of seconds after each Join, fades, and the privacy line comes back
+let oopsTimer = null;
+const clearOops = (fast) => { clearTimeout(oopsTimer); const o = $('hfOops'); o.classList.remove('on'); $('hfEmail').removeAttribute('aria-invalid');
+  oopsTimer = setTimeout(() => { o.hidden = true; $('cta').classList.remove('oops-on'); }, fast ? 0 : 350); };
+const flashOops = () => { clearTimeout(oopsTimer); const o = $('hfOops'); o.hidden = false; $('cta').classList.add('oops-on'); $('hfEmail').setAttribute('aria-invalid','true');
+  requestAnimationFrame(() => o.classList.add('on')); oopsTimer = setTimeout(() => clearOops(false), 1800); };
+$('hfEmail').addEventListener('input', () => { showFine(); clearOops(true); });
 $('hfEmail').addEventListener('animationstart', e => { if (e.animationName === 'hfAutofill') showFine(); });
 setTimeout(() => { if ($('hfEmail').value) showFine(); }, 800);
 $('hfEmail').addEventListener('blur', () => { setTimeout(() => {
   if (document.activeElement === $('hfEmail')) return;
-  if (!$('hfEmail').value) { seen = false; $('cta').classList.remove('typing'); }
+  if (!$('hfEmail').value) { seen = false; clearOops(true); $('cta').classList.remove('typing'); }
   if (keepY !== null) { window.scrollTo({ top: keepY, behavior: 'instant' }); keepY = null; }
 }, 60); });
 $('hfForm').addEventListener('submit', e => {
   e.preventDefault();
   if (!seen) { showFine(); return; } // never let anyone join before the consent line has shown
+  if ($('cta').classList.contains('oops-on')) { clearOops(true); showFine(); if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($('hfEmail').value.trim())) return; } // the privacy line must be back on screen before they can join
   const email = $('hfEmail').value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { $('hfEmail').focus(); $('hfForm').animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:240}); return; }
+  if (!email) { $('hfEmail').focus(); return; } // nothing typed is not a mistake: just open the box
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { flashOops(); $('hfEmail').focus(); $('hfForm').animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:240}); return; }
   $('hfErr').hidden = true; $('hfSubmit').disabled = true;
   fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) })
