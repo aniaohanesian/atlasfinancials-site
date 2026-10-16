@@ -44,7 +44,7 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 @media (max-aspect-ratio:1/1){
   /* like the computer: the page is a little taller than the screen, the words and button stay frozen and the painting
      slides up under them as you scroll */
-  .poster{--ah:clamp(360px,66svh,720px);--extra:14svh;display:block;min-height:0;height:calc(100svh + var(--extra))}
+  .poster{--ah:clamp(360px,66svh,720px);--extra:8.5svh;display:block;min-height:0;height:calc(100svh + var(--extra))}
   .copy{display:block;position:sticky;top:0;height:100svh;z-index:3}
   .words{position:absolute;left:0;right:0;top:0;height:calc(100svh - var(--ah) * 0.85);align-content:center;gap:3.2vw;padding:calc(14px + env(safe-area-inset-top)) 20px 0}
   .art{position:absolute;left:0;right:0;top:calc(100svh - var(--ah));height:var(--ah);margin:0}
@@ -89,6 +89,8 @@ h1{white-space:nowrap;font:600 clamp(60px,25vw,124px)/.95 var(--serif);color:var
 /* squarer computer screens (iPad sideways, 1024x768, 1440x900): slide the painting right so the globe clears the words */
 @media (min-aspect-ratio:1/1) and (max-aspect-ratio:3/2){.art{background-position:55% 30%}}
 @media (min-aspect-ratio:3/2) and (max-aspect-ratio:17/10){.art{background-position:70% 30%}}
+/* short sideways screens (a phone turned sideways): the painting box takes the painting's own shape so his whole body shows */
+@media (min-aspect-ratio:1/1) and (max-height:500px){.art{width:min(64%,calc(118svh * 1.4906))}}
 /* waitlist pop-up: the earlier light version (cream panel, navy and blue text), her pick 14 Oct */
 .sheet{position:fixed;z-index:40;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(3,8,15,.6);padding:16px}
 /* phones: the pop-up is a card that rises from the bottom and sits flat on top of the keyboard (as in the artifact version) */
@@ -449,6 +451,26 @@ $('wlAgain').addEventListener('click', () => { $('wlForm').reset(); $('wlDone').
     t.addEventListener('keydown',function(e){ if(mq.matches&&(e.key==='Enter'||e.key===' ')){e.preventDefault();set(!it.classList.contains('open'))} });
     if(mq.addEventListener) mq.addEventListener('change',arm); arm();
   });
+})();
+</script>
+<script>
+/* phone hold length: the words let go when the top of the globe is 20px under the
+   subtitle, measured from the layout, so it works on any phone height */
+(function(){
+  var mq=matchMedia('(max-aspect-ratio:1/1)'),poster=document.getElementById('poster'),art=poster&&poster.querySelector('.art'),tag=poster&&poster.querySelector('.tag');
+  if(!art||!tag) return;
+  var IW=2528,IH=1696,CY=555,R=186,GAP=20;
+  function pct(v,free){return v.indexOf('%')>0?parseFloat(v)/100*free:parseFloat(v)}
+  function set(){
+    if(!mq.matches){poster.style.removeProperty('--extra');return}
+    var w=art.clientWidth,h=art.clientHeight,s=Math.max(w/IW,h/IH),bp=getComputedStyle(art).backgroundPosition.split(' '),
+        oy=pct(bp[1]||'50%',h-IH*s),pr=poster.getBoundingClientRect(),
+        globeTop=art.getBoundingClientRect().top-pr.top+oy+(CY-R)*s,
+        rg=document.createRange();rg.selectNodeContents(tag);
+    var tagBottom=rg.getBoundingClientRect().bottom-pr.top-(scrollY>0?Math.min(scrollY,parseFloat(getComputedStyle(poster).getPropertyValue('--extra'))||0):0);
+    poster.style.setProperty('--extra',Math.max(0,Math.round(globeTop-tagBottom-GAP))+'px');
+  }
+  set();addEventListener('load',set);addEventListener('resize',set);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(set);
 })();
 </script>
 </body>
