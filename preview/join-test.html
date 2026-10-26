@@ -524,7 +524,7 @@ $('hfAgain').addEventListener('click', () => { $('hfForm').reset(); $('hfDone').
   var t0=performance.now(),box=document.getElementById('tlog'),btn=document.getElementById('hfSubmit'),inp=document.getElementById('hfEmail'),form=document.getElementById('hfForm');
   function r(el){var b=el.getBoundingClientRect();return Math.round(b.left)+','+Math.round(b.top)}
   function L(m){var line=(performance.now()-t0).toFixed(0).padStart(6)+'  '+m+'  sy='+Math.round(scrollY)+(window.visualViewport?' vv='+Math.round(visualViewport.height)+'/'+Math.round(visualViewport.offsetTop):'')+'  btn@'+r(btn);box.textContent=line+'\n'+box.textContent;}
-  window.__fakeSend=function(){L('SENT (test page: nothing saved)');return Promise.resolve()};
+  window.__fakeSend=function(){L('SENDING (waits 2.5s like the real sheet)');return new Promise(function(r){setTimeout(function(){L('SENT (test page: nothing saved)');r()},2500)})};
   ['touchstart','touchend','touchcancel','pointerdown','pointerup','pointercancel','mousedown','mouseup','click'].forEach(function(ev){
     document.addEventListener(ev,function(e){if(box.contains(e.target))return;var t=e.target&&e.target.id?'#'+e.target.id:(e.target&&e.target.tagName||'?');var p=e.changedTouches?e.changedTouches[0]:e;var xy=p&&p.clientX!=null?Math.round(p.clientX)+','+Math.round(p.clientY):'';L(ev+' '+t+' at '+xy)},true)});
   inp.addEventListener('focus',function(){L('input focus')});inp.addEventListener('blur',function(){L('input blur')});
