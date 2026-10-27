@@ -518,6 +518,7 @@ $('hfAgain').addEventListener('click', () => { $('hfForm').reset(); $('hfDone').
   set();addEventListener('load',set);addEventListener('resize',set);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(set);
 })();
 </script>
+<button id="tlogCopy" type="button" style="position:fixed;right:8px;top:calc(34vh + 8px);z-index:100;font:600 13px system-ui;padding:10px 14px;border:0;border-radius:6px;background:#9f9;color:#000">Copy log</button>
 <div id="tlog" style="position:fixed;left:0;right:0;top:0;z-index:99;max-height:34vh;overflow:auto;background:rgba(0,0,0,.85);color:#9f9;font:11px/1.35 ui-monospace,Menlo,monospace;padding:6px 8px;white-space:pre-wrap"></div>
 <script>
 (function(){
@@ -533,6 +534,12 @@ $('hfAgain').addEventListener('click', () => { $('hfForm').reset(); $('hfDone').
   if(window.visualViewport)visualViewport.addEventListener('resize',function(){L('viewport resize (keyboard)')});
   L('ready · '+navigator.userAgent.replace(/^Mozilla\/5.0 /,'').slice(0,100));
 })();
+</script>
+<script>
+document.getElementById('tlogCopy').addEventListener('click',function(){var b=this,t=document.getElementById('tlog').textContent;
+  function ok(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy log'},1500)}
+  function fb(){var x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy');ok()}catch(e){b.textContent='Copy failed'}x.remove()}
+  if(navigator.clipboard)navigator.clipboard.writeText(t).then(ok,fb);else fb();});
 </script>
 </body>
 </html>
