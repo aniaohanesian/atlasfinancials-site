@@ -383,7 +383,7 @@ $('hfForm').addEventListener('submit', e => {
   $('hfErr').hidden = true; $('hfEmail').blur(); $('hfAsk').hidden = true; $('hfDone').hidden = false;
   fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) })
-    .catch(() => { $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfErr').hidden = false; });
+    .catch(() => { $('hfEmail').value = email; $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfErr').hidden = false; });
 });
 $('hfAgain').addEventListener('click', () => { $('hfForm').reset(); $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfEmail').focus(); });
 
