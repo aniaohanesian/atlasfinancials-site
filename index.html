@@ -371,6 +371,9 @@ $('hfEmail').addEventListener('blur', () => { setTimeout(() => {
   if (!$('hfEmail').value) { seen = false; clearOops(true); $('cta').classList.remove('typing'); }
   if (keepY !== null) { window.scrollTo({ top: keepY, behavior: 'instant' }); keepY = null; }
 }, 60); });
+let joins = 0; // goes up with each Join and each "Add another person", so a late failure knows if they have moved on
+const save = email => fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+  body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) });
 $('hfForm').addEventListener('submit', e => {
   e.preventDefault();
   if (!seen) { showFine(); return; } // never let anyone join before the consent line has shown
@@ -379,14 +382,16 @@ $('hfForm').addEventListener('submit', e => {
   if (!email) { $('hfEmail').focus(); return; } // nothing typed is not a mistake: just open the box
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { flashOops(); $('hfEmail').focus(); $('hfForm').animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:240}); return; }
   // her idea 7 Nov: "just say ur on the list once they click": thank them at once; the save carries on (keepalive lets it finish
-  // even if they leave the page), and if it fails the form comes back with their email and the error
+  // even if they leave the page). If it fails while they are still on this person, the form comes back with their email and
+  // the error; if they have already moved on to the next person, it quietly tries once more instead of undoing their screen
   $('hfErr').hidden = true; $('hfEmail').blur(); $('hfAsk').hidden = true; $('hfDone').hidden = false;
-  fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) })
-    .catch(() => { if (!$('hfEmail').value) $('hfEmail').value = email; // never wipe what they have typed for the next person
-      $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfErr').hidden = false; });
+  const n = ++joins;
+  save(email).catch(() => {
+    if (n !== joins) return save(email).catch(() => {});
+    $('hfEmail').value = email; $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfErr').hidden = false;
+  });
 });
-$('hfAgain').addEventListener('click', () => { $('hfForm').reset(); $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfEmail').focus(); });
+$('hfAgain').addEventListener('click', () => { joins++; $('hfForm').reset(); $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfEmail').focus(); });
 
 (function(){
   var sec=$('poster'), c=sec.querySelector('.stars'), x=c.getContext('2d'), art=sec.querySelector('.art');
