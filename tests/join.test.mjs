@@ -4,11 +4,14 @@ import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
 import { chromium } from 'playwright-core';
 
 const ROOT = new URL('..', import.meta.url).pathname;
-const CHROME = process.env.CHROME_PATH || `${process.env.HOME}/.cache/ms-playwright/chromium_headless_shell-1247/chrome-headless-shell-linux64/chrome-headless-shell`;
+// CHROME_PATH, else the browser already on frank-box, else Playwright's own (npx playwright-core install chromium)
+const BOX_CHROME = `${process.env.HOME}/.cache/ms-playwright/chromium_headless_shell-1247/chrome-headless-shell-linux64/chrome-headless-shell`;
+const CHROME = process.env.CHROME_PATH || (existsSync(BOX_CHROME) ? BOX_CHROME : undefined);
 const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.webp': 'image/webp', '.ico': 'image/x-icon' };
 let server, browser, base;
 
@@ -34,16 +37,17 @@ async function joinWith(save) {
   return { page, sent };
 }
 const shown = (page, sel) => page.$eval(sel, el => !el.hidden);
+const until = (page, sel, hidden) => page.waitForFunction(([s, h]) => document.querySelector(s).hidden === h, [sel, hidden], { timeout: 2000 });
 
 test('says "You\'re on the list" at once, while the save is still going', async () => {
   let finish; const saving = new Promise(r => { finish = r; });
   const { page, sent } = await joinWith(async route => { await saving; await route.fulfill({ status: 200, body: 'ok' }); });
-  await page.waitForTimeout(300);
+  await until(page, '#hfDone', false); // throws if the thanks waits for the save
   assert.equal(sent.length, 1, 'the email was sent');
   assert.match(sent[0], /someone@example\.com/);
   assert.equal(await shown(page, '#hfDone'), true, 'thanks shows before the save finishes');
   assert.equal(await shown(page, '#hfAsk'), false);
-  finish(); await page.waitForTimeout(200);
+  finish(); await page.waitForLoadState('networkidle');
   assert.equal(await shown(page, '#hfDone'), true, 'still thanked after the save');
   assert.equal(await shown(page, '#hfErr'), false);
   await page.close();
@@ -51,10 +55,21 @@ test('says "You\'re on the list" at once, while the save is still going', async 
 
 test('a failed save brings the form back with the error (control)', async () => {
   const { page } = await joinWith(route => route.abort());
-  await page.waitForTimeout(500);
+  await until(page, '#hfErr', false);
   assert.equal(await shown(page, '#hfDone'), false, 'no thanks once the save failed');
   assert.equal(await shown(page, '#hfAsk'), true, 'the form is back');
   assert.equal(await shown(page, '#hfErr'), true, 'the error shows');
   assert.equal(await page.inputValue('#hfEmail'), 'someone@example.com', 'their email is kept');
+  await page.close();
+});
+
+test('a failed save never wipes what they typed for the next person', async () => {
+  let fail; const failing = new Promise(r => { fail = r; });
+  const { page } = await joinWith(async route => { await failing; await route.abort(); });
+  await until(page, '#hfDone', false);
+  await page.click('#hfAgain');
+  await page.fill('#hfEmail', 'next@example.com');
+  fail(); await until(page, '#hfErr', false);
+  assert.equal(await page.inputValue('#hfEmail'), 'next@example.com');
   await page.close();
 });
