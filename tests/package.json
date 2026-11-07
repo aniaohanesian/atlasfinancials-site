@@ -1,0 +1,12 @@
+{
+  "name": "atlasfinancials-site-tests",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node --test join.test.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.56.1"
+  },
+  "private": true,
+  "type": "module"
+}
