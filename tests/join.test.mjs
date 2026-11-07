@@ -33,7 +33,9 @@ async function joinWith(save) {
   await page.route('https://script.google.com/**', async route => { sent.push(route.request().postData()); await save(route); });
   await page.goto(base);
   await page.fill('#hfEmail', 'someone@example.com');
+  const request = page.waitForRequest('https://script.google.com/**');
   await page.click('#hfSubmit');
+  await request;
   return { page, sent };
 }
 const shown = (page, sel) => page.$eval(sel, el => !el.hidden);
@@ -63,13 +65,19 @@ test('a failed save brings the form back with the error (control)', async () => 
   await page.close();
 });
 
-test('a failed save never wipes what they typed for the next person', async () => {
-  let fail; const failing = new Promise(r => { fail = r; });
-  const { page } = await joinWith(async route => { await failing; await route.abort(); });
-  await until(page, '#hfDone', false);
+test('a late failure after "Add another person" leaves the next person alone and quietly tries again', async () => {
+  let fail, retried; const failing = new Promise(r => { fail = r; }), retry = new Promise(r => { retried = r; });
+  let calls = 0;
+  const { page, sent } = await joinWith(async route => {
+    if (++calls === 1) { await failing; await route.abort(); } else { retried(); await route.fulfill({ status: 200, body: 'ok' }); } });
   await page.click('#hfAgain');
   await page.fill('#hfEmail', 'next@example.com');
-  fail(); await until(page, '#hfErr', false);
-  assert.equal(await page.inputValue('#hfEmail'), 'next@example.com');
+  fail(); await Promise.race([retry, new Promise((_, no) => setTimeout(() => no(new Error('the first email was never sent again')), 3000))]);
+  assert.equal(sent.length, 2, 'the first email was sent again');
+  assert.match(sent[1], /someone@example\.com/);
+  assert.equal(await page.inputValue('#hfEmail'), 'next@example.com', 'what they typed is kept');
+  assert.equal(await shown(page, '#hfAsk'), true, 'still on the form for the next person');
+  assert.equal(await shown(page, '#hfErr'), false, 'no error about someone else');
+  assert.equal(await shown(page, '#hfDone'), false);
   await page.close();
 });
