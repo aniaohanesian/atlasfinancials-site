@@ -378,12 +378,12 @@ $('hfForm').addEventListener('submit', e => {
   const email = $('hfEmail').value.trim();
   if (!email) { $('hfEmail').focus(); return; } // nothing typed is not a mistake: just open the box
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { flashOops(); $('hfEmail').focus(); $('hfForm').animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:240}); return; }
-  $('hfErr').hidden = true; $('hfSubmit').disabled = true;
-  fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+  // her idea 7 Nov: "just say ur on the list once they click": thank them at once; the save carries on (keepalive lets it finish
+  // even if they leave the page), and if it fails the form comes back with their email and the error
+  $('hfErr').hidden = true; $('hfEmail').blur(); $('hfAsk').hidden = true; $('hfDone').hidden = false;
+  fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify({ email, source: 'atlasfinancials.io', consent: 'By signing up you agree to receive launch updates from Atlas. We won\'t share your email, and you can unsubscribe any time. See our Privacy Policy.' }) })
-    .then(() => { $('hfEmail').blur(); $('hfAsk').hidden = true; $('hfDone').hidden = false; })
-    .catch(() => { $('hfErr').hidden = false; })
-    .finally(() => { $('hfSubmit').disabled = false; });
+    .catch(() => { $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfErr').hidden = false; });
 });
 $('hfAgain').addEventListener('click', () => { $('hfForm').reset(); $('hfDone').hidden = true; $('hfAsk').hidden = false; $('hfEmail').focus(); });
 
